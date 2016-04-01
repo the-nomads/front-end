@@ -13,7 +13,7 @@ StockSearchController.controller('StockSearchController',
                 if ($scope.currentStockSymbol == null || $scope.currentStockSymbol == "") {
                     $scope.stockSymbolError = "Please enter a Stock Symbol to look up";
                 } else {
-                    
+
                     $scope.currentStockSymbol =
                         $scope.currentStockSymbol
                         .toUpperCase()
@@ -55,7 +55,7 @@ StockSearchController.controller('StockSearchController',
                         $scope.$apply();
                     });
                 }
-            }
+            };
 
             $scope.chartLoading = false;
 

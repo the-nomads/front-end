@@ -1,4 +1,4 @@
-var weatherService = angular.module('WeatherService', []);
+﻿var weatherService = angular.module('WeatherService', []);
 
     weatherService.service('WeatherService', [function () {
         //'use strict';

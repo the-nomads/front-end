@@ -37,7 +37,7 @@ stockService.service('StockService', [function () {
                 callback(data.query.results.quote);
             }
         }, onError);
-    }
+    };
 
     this.getStockTimeline = function (symbol, startDate, endDate, callback, onError) {
 
@@ -47,8 +47,8 @@ stockService.service('StockService', [function () {
             startDate = swap;
         }
 
-        var query = 'select * from yahoo.finance.historicaldata where symbol = "' + symbol 
-            + '" and startDate = "' + $.format.date(endDate, 'yyyy-MM-dd') + 
+        var query = 'select * from yahoo.finance.historicaldata where symbol = "' + symbol
+            + '" and startDate = "' + $.format.date(endDate, 'yyyy-MM-dd') +
             '" and endDate = "' + $.format.date(startDate, 'yyyy-MM-dd') + '"';
 
         this.executeQuery(query, false, function (data) {
@@ -58,7 +58,7 @@ stockService.service('StockService', [function () {
                 callback(data.query.results.quote);
             }
         }, onError);
-    }
+    };
 
     this.executeQuery = function (query, isDetail, callback, onError) {
         $.ajax({
@@ -78,5 +78,5 @@ stockService.service('StockService', [function () {
                 }
             }
         });
-    }
+    };
 }]);
