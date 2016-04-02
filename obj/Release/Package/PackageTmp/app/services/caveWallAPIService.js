@@ -38,11 +38,6 @@ caveWallAPIService.service('CaveWallAPIService', ['$facebook', 'AuthService', fu
                 headers: extraHeaders,
                 success: function (result) {
                     if (callback) {
-                        try
-                        {
-                            result = JSON.parse(result);
-                        }
-                        catch (exc) { }
                         callback(result);
                     }
                 },
