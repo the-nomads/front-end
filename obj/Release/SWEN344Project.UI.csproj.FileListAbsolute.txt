@@ -1,6 +1,0 @@
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\bin\index.html
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\bin\SWEN344Project.UI.dll
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\bin\SWEN344Project.UI.pdb
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\obj\Release\SWEN344Project.UI.csprojResolveAssemblyReference.cache
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\obj\Release\SWEN344Project.UI.dll
-C:\Users\ian\Desktop\School\Web Engineering\Team Project\front-end\obj\Release\SWEN344Project.UI.pdb
