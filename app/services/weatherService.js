@@ -1,6 +1,6 @@
 ﻿var weatherService = angular.module('WeatherService', []);
 
-    weatherService.service('WeatherService', [function () {
+weatherService.service('WeatherService', ['CaveWallAPIService', function (CaveWallAPIService) {
         //'use strict';
 
         this.defaultZip = "14623";
@@ -26,10 +26,6 @@
             this.userCurrentZip = zip;
         };
 
-        // http://openweathermap.org/current
-        this.apiID = "fb9769e8739b7889d90188cbb3052c24";
-        this.baseApiURL = "http://api.openweathermap.org/data/2.5/";
-
         this.getWeather = function (zip, callback) {
             if (zip == null) {
                 zip == this.getCurrentZipCode();
@@ -51,14 +47,10 @@
                         }
                     });
                 } else {
-                    $.ajax({
-                        url: this.baseApiURL + "weather?zip=" + zip + ",us&appid=" + this.apiID,
-                        cache: false,
-                        crossDomain: true,
-                        dataType: 'json',
-                        method: 'GET',
-                        success: function (result) {
-                            dayData = result;
+                    CaveWallAPIService.makeCall("GET", "weather/current", zip, null,
+                        function (data) {
+                            // On success
+                            dayData = data;
 
                             // Save the data in a cookie for 10 minutes to cache it
                             // expires in 10 minutes (1 day / 24 hours per day / 60 minutes per hour * 10 = 10 minutes
@@ -68,14 +60,15 @@
                                 weatherCallbackHelper(zip, dayData, forecastData, callback);
                             }
                         },
-                        error: function () {
+                        function () {
+                            // On error
                             dayData = { errorLoading: true };
 
                             if (forecastData != null) {
                                 weatherCallbackHelper(zip, dayData, forecastData, callback);
                             }
-                        }
-                    });
+                        });
+
                 }
             }
 
@@ -93,14 +86,10 @@
                         }
                     }, 0);
                 } else {
-                    $.ajax({
-                        url: this.baseApiURL + "forecast?zip=" + zip + ",us&appid=" + this.apiID + "&cnt=12", // count 12 because it's in 3 hour increments, so 36 hours
-                        cache: false,
-                        crossDomain: true,
-                        dataType: 'json',
-                        method: 'GET',
-                        success: function (result) {
-                            forecastData = result;
+                    CaveWallAPIService.makeCall("GET", "weather/forecast", zip, null,
+                        function (data) {
+                            // On success
+                            forecastData = data;
 
                             // Save the data in a cookie for 10 minutes to cache it
                             // expires in 10 minutes (1 day / 24 hours per day / 60 minutes per hour * 10 = 10 minutes
@@ -110,14 +99,14 @@
                                 weatherCallbackHelper(zip, dayData, forecastData, callback);
                             }
                         },
-                        error: function () {
+                        function () {
+                            // On error
                             forecastData = { errorLoading: true };
 
                             if (dayData != null) {
                                 weatherCallbackHelper(zip, dayData, forecastData, callback);
                             }
-                        }
-                    });
+                        });
                 }
             }
 
