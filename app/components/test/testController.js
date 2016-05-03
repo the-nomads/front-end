@@ -50,7 +50,7 @@ TestController.controller('TestController',
             }
 
             $scope.LoadBalance = function () {
-                CaveWallAPIService.makeCall("GET", "users/financialtransactions/balance", "usd", null,
+                CaveWallAPIService.makeCall("GET", "users/balance", null, null,
                 function (data) {
                     // On success
                     console.log("balance: ")
