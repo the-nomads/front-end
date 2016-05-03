@@ -43,7 +43,7 @@ caveWallAPIService.service('CaveWallAPIService', ['$facebook', 'AuthService', fu
                 },
                 error: function () {
                     if (onError) {
-                        onError();
+                        onError(arguments);
                     }
                 }
             });

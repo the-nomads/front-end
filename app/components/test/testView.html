@@ -1,0 +1,23 @@
+﻿<main>
+    <button ng-click="BuyYahoo()">Buy 10 YHOO</button>
+    {{BuyError}}
+    <br />
+    <button ng-click="SellYahoo()">Sell 10 YHOO</button>
+    {{SellError}}
+    <br />
+    <button ng-click="LoadBalance()">Get Balance</button>
+    <span>Balance: {{balance}}</span>
+    <br />
+    <button ng-click="LoadTransactions()">Load Transactions</button>
+    <div>
+        <div ng-repeat="transaction in transactions">
+            <span ng-show="transaction.FinancialTransactionDirection == 'OUT'" style="color: #FF0000">- {{transaction.Amount}}</span>
+            <span ng-show="transaction.FinancialTransactionDirection == 'IN'" style="color: #00CC00">+ {{transaction.Amount}}</span>
+            |
+            <span ng-show="transaction.FinancialTransactionDirection == 'OUT'">Bought</span>
+            <span ng-show="transaction.FinancialTransactionDirection == 'IN'">Sold</span>
+            {{transaction.NumSharesBoughtOrSold}} shares of {{transaction.StockName}}
+            | on {{transaction.TransactionDate}}
+        </div>
+    </div>
+</main>
