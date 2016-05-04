@@ -46,13 +46,17 @@ angApp.config(['$routeProvider', '$facebookProvider',
 
         $routeProvider.
             when('/', {
-                redirectTo: '/home',
-                title: 'Home'
-			}).
+                redirectTo: '/login'
+			      }).
+            when('/login', {
+                templateUrl: 'app/components/login/loginView.html',
+				        controller: 'LoginController',
+				        title: 'Login',
+            }).
             when('/home', {
                 templateUrl: 'app/components/home/homeView.html',
-				controller: 'HomeController',
-				title: 'Home',
+				        controller: 'HomeController',
+				        title: 'Home',
                 activetab: 'home',
             }).
             when('/calendar', {
@@ -74,8 +78,7 @@ angApp.config(['$routeProvider', '$facebookProvider',
                 activetab: 'weather'
             }).
             otherwise({
-                redirectTo: '/home',
-                title: 'Home'
+                redirectTo: '/login'
             });
     }
 ]);
@@ -101,4 +104,3 @@ angApp.run(['$rootScope', '$window', function ($rootScope, $window) {
         $rootScope.title = current.$$route.title;
     });
 }]);
-
