@@ -3,30 +3,48 @@
     <div class="ui segment">
       <div class="ui top attached label">Total Value</div>
       <div class="ui relaxed divided list">
-        <div class="item">Shares</div>
-        <div class="item">Companies</div>
-        <div class="item">Value</div>
+        <div class="item">
+          Shares
+          <div class="right floated content">
+            23
+          </div>
+        </div>
+        <div class="item">
+          Companies
+          <div class="right floated content">
+            23
+          </div>
+        </div>
+        <div class="item">
+          Value
+          <div class="right floated content">
+            23
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="ten wide column">
     <table class="ui celled padded table">
       <thead>
-        <tr><th class="single line">Ticker</th>
-        <th>Shares</th>
-        <th>Current Value</th>
+        <tr>
+          <th class="single line">Ticker</th>
+          <th>Shares</th>
+          <th>Current Value</th>
         </tr>
       </thead>
       <tbody>
-        <td class="single line">
-          GOOG
-        </td>
-        <td class="single line">
-          20
-        </td>
-        <td class="single line">
-          +$900
-        </td>
+        <tr ng-repeat="stock in stocks track by $index">
+          <td class="single line">
+            <!-- {{stock.Ticker}} -->
+          </td>
+          <td class="single line">
+            <!-- {{stock.Shares}} -->
+          </td>
+          <td class="single line">
+            <!-- {{stock.Value}} -->
+          </td>
+        </tr>
       </tbody>
   </div>
 </div>

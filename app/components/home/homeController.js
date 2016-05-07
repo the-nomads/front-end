@@ -21,7 +21,6 @@ HomeController.controller('HomeController',
               });
             }, function(data) {
               console.log('error getting stocks');
-              console.log(data);
             });
 
             $scope.loggedIn = false;
