@@ -32,6 +32,10 @@
   line-height: 50px;
 }
 
+.ui.menu .item > .image.label {
+  padding: .5833em .833em .5833em .5em;
+}
+
 .ticker {
   width: 100%;
   padding: 1em .5em;

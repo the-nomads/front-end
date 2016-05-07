@@ -1,25 +1,27 @@
 ﻿var HomeController = angular.module("HomeController", []);
 
 HomeController.controller('HomeController',
-    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService',
-        function ($scope, $location, weatherService, stockService, authService) {
+    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService', 'CaveWallAPIService',
+        function ($scope, $location, weatherService, stockService, authService, caveWallAPIService) {
             //'use strict';
             if(authService.getUser() == null) {
               $location.path('/login');
             }
 
             $scope.stocks = [];
-
-            stockService.getStockTicker(function (stocks) {
-                $scope.stocks = stocks;
-                $scope.$apply();
-                $('.stock').each(function(index){
-                  var child = $(this).find('.change');
-                  if(child.text().includes('-'))
-                    child.addClass('negative');
-                  else if (child.text().includes('+'))
-                    child.addClass('positive');
-                });
+            caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
+              $scope.stocks = stocks;
+              $scope.$apply();
+              $('.stock').each(function(index){
+                var child = $(this).find('.change');
+                if(child.text().includes('-'))
+                  child.addClass('negative');
+                else if (child.text().includes('+'))
+                  child.addClass('positive');
+              });
+            }, function(data) {
+              console.log('error getting stocks');
+              console.log(data);
             });
 
             $scope.loggedIn = false;
