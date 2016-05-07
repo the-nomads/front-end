@@ -31,3 +31,69 @@
   color: #fff;
   line-height: 50px;
 }
+
+.ticker {
+  width: 100%;
+  padding: 1em .5em;
+  overflow: hidden;
+}
+
+.ticker .stock {
+  display: inline-block;
+  margin: 0 1em;
+}
+
+  .ticker .stock .symbol {
+    font-size: 20px;
+    padding-right: .25em;
+  }
+
+  .ticker .stock span {
+    color: #fbbd08;
+  }
+
+  .ticker .stock span.positive {
+    color: #21ba45;
+  }
+
+  .ticker .stock span.negative {
+    color: #db2828;
+  }
+
+.post.grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: no-wrap;
+  -ms-flex-wrap: no-wrap;
+  flex-wrap: no-wrap;
+  border-bottom: solid 1px #CECECE;
+  padding: 1em;
+}
+
+.status.form {
+  padding: 0;
+}
+.status.form .submit.button {
+  margin: .5em 1em;
+}
+
+.post.grid > .field {
+  width: 100%;
+}
+
+  .post.grid .image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .post.grid .field .post.area {
+    border: none;
+    resize: none;
+  }

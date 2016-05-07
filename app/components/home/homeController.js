@@ -13,11 +13,19 @@ HomeController.controller('HomeController',
             stockService.getStockTicker(function (stocks) {
                 $scope.stocks = stocks;
                 $scope.$apply();
+                $('.stock').each(function(index){
+                  var child = $(this).find('.change');
+                  if(child.text().includes('-'))
+                    child.addClass('negative');
+                  else if (child.text().includes('+'))
+                    child.addClass('positive');
+                });
             });
 
             $scope.loggedIn = false;
             authService.doOnLogin('homeControllerLogin', function (user) {
                 $scope.loggedIn = true;
+                $scope.facebookUserID = user.id;
                 authService.getUserFeed(function (userWall) {
                     $scope.wall = userWall.data;
                 });
@@ -28,7 +36,17 @@ HomeController.controller('HomeController',
                 $scope.wall = [];
             });
 
-
+            $scope.message = "";
+            $scope.doPost = function() {
+              console.log($scope.message);
+              if($scope.message != "") {
+                authService.postToWall(function(data){
+                  $scope.message = "";
+                  $scope.$apply();
+                  console.log(data);
+                }, $scope.message);
+              }
+            }
 
             $scope.zipError = false;
             $scope.currentZipCode = weatherService.getCurrentZipCode();

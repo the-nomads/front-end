@@ -4,7 +4,6 @@ facebookLoginController.controller('FacebookLoginController', ['$scope', '$locat
     function ($scope, $location, $facebook, authService, $route) {
         $scope.$route = $route;
         var user = authService.getUser();
-        console.log($scope);
         if(user != null) {
           $scope.userName = authService.getUser().name;
           $scope.facebookUserID = authService.getUser().id;
