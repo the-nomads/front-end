@@ -20,7 +20,11 @@ var angApp = angular.module('angApp', [
     'HomeController',
     'FacebookLoginController',
     'CalendarController',
+
     'StockSearchController',
+    'MyStocksController',
+    'TransactionHistoryController',
+
     'WeatherController',
     'LoginController',
 
@@ -69,7 +73,7 @@ angApp.config(['$routeProvider', '$facebookProvider',
                 activetab: 'calendar'
             }).
             when('/stockSearch', {
-                templateUrl: 'app/components/stockSearch/stockSearchView.html',
+                templateUrl: 'app/components/stocks/stockSearchView.html',
                 controller: 'StockSearchController',
                 title: 'Stock Search',
                 activetab: 'stocksearch'
