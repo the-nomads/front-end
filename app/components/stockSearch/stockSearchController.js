@@ -12,6 +12,12 @@ StockSearchController.controller('StockSearchController',
             $scope.currentStockSymbol = $location.search().stock;
             $scope.stockDetails = null;
 
+            $scope.back = function () {
+                $scope.currentStockSymbol = null;
+                $scope.stockDetails = null;
+                $scope.$apply();
+            }
+
             $scope.stockSearch = function () {
                 if ($scope.currentStockSymbol == null || $scope.currentStockSymbol == "") {
                     $scope.stockSymbolError = "Please enter a Stock Symbol to look up";
