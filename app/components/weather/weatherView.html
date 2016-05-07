@@ -14,8 +14,8 @@
             </div>
         </div>
         <div class="ui segment">
-            <div class="ui vertically divided grid">
-                <div class="three column row">
+            <div class="ui vertically divided stackable grid">
+                <div class="row">
                     <div class="column five wide">
                         <div ng-hide="weather.errorLoading">
                             <h3>Current Weather For {{weather.zip}}</h3>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column five wide">
+                    <div class="column eleven wide">
                         <div ng-hide="weather.errorLoadingHourly">
                             <div class="ui divided items">
                                 <div class="item" ng-repeat="datapoint in weather.hourly track by $index">

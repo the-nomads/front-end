@@ -72,11 +72,11 @@ angApp.config(['$routeProvider', '$facebookProvider',
                 title: 'Calendar',
                 activetab: 'calendar'
             }).
-            when('/stockSearch', {
+            when('/stocks', {
                 templateUrl: 'app/components/stocks/stockSearchView.html',
                 controller: 'StockSearchController',
-                title: 'Stock Search',
-                activetab: 'stocksearch'
+                title: 'Stock',
+                activetab: 'stocks'
             }).
             when('/weather', {
                 templateUrl: 'app/components/weather/weatherView.html',
