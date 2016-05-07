@@ -1,9 +1,12 @@
 ﻿var HomeController = angular.module("HomeController", []);
 
 HomeController.controller('HomeController',
-    ['$scope', 'WeatherService', 'StockService', 'AuthService',
-        function ($scope, weatherService, stockService, authService) {
+    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService',
+        function ($scope, $location, weatherService, stockService, authService) {
             //'use strict';
+            if(authService.getUser() == null) {
+              $location.path('/login');
+            }
 
             $scope.stocks = [];
 

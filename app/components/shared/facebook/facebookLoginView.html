@@ -8,11 +8,10 @@
             <a class="item" ng-class="{active: $route.current.activetab == 'weather'}" href="#weather">Weather</a>
             <div class="right item">
                 <div class="container-body">
-                    <div class="ui inverted button" ng-click="login()" ng-hide="isLoggedIn">Login</div>
-                    <div class="ui inverted button" ng-click="logout()" ng-show="isLoggedIn">Logout</div>
+                    <div class="ui inverted button" ng-click="logout()">Logout</div>
                 </div>
-                <div class="ui image blue label big" ng-show="isLoggedIn">
-                    <img src="https://graph.facebook.com/{{facebookUserID}}/picture?type=small" />
+                <div class="ui image blue label big">
+                    <img class="ui avatar image" src="https://graph.facebook.com/{{facebookUserID}}/picture?type=small" />
                     {{userName}}
                 </div>
             </div>

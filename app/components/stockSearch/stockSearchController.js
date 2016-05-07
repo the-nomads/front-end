@@ -1,9 +1,12 @@
 ﻿var StockSearchController = angular.module("StockSearchController", []);
 
 StockSearchController.controller('StockSearchController',
-    ['$scope', 'StockService', 'AuthService', '$location',
-        function ($scope, stockService, authService, $location) {
+    ['$scope', '$window', 'StockService', 'AuthService', '$location',
+        function ($scope, $window, stockService, authService, $location) {
             //'use strict';
+            if(authService.getUser() == null) {
+              $location.path('/login');
+            }
 
             $scope.stockSymbolError = null;
             $scope.currentStockSymbol = $location.search().stock;
@@ -142,7 +145,7 @@ StockSearchController.controller('StockSearchController',
                     var frequency = 1; // Number of days we show
                     // if we group up data sets by this number it should
                     // limit us to 31 maximum points
-                    frequency = Math.ceil(data.length / 31); 
+                    frequency = Math.ceil(data.length / 31);
 
                     if (frequency == 1) {
                         for (var i in data) {

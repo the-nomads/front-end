@@ -22,6 +22,7 @@ var angApp = angular.module('angApp', [
     'CalendarController',
     'StockSearchController',
     'WeatherController',
+    'LoginController',
 
     'TestController',
 
@@ -53,13 +54,13 @@ angApp.config(['$routeProvider', '$facebookProvider',
             when('/login', {
                 templateUrl: 'app/components/login/loginView.html',
 				        controller: 'LoginController',
-				        title: 'Login',
+				        title: 'Login'
             }).
             when('/home', {
                 templateUrl: 'app/components/home/homeView.html',
 				        controller: 'HomeController',
 				        title: 'Home',
-                activetab: 'home',
+                activetab: 'home'
             }).
             when('/calendar', {
                 templateUrl: 'app/components/calendar/calendarView.html',
@@ -109,6 +110,6 @@ angApp.run(['$rootScope', '$window', function ($rootScope, $window) {
     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
 
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
+      $rootScope.title = current.$$route.title;
     });
 }]);

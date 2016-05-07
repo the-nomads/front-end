@@ -1,12 +1,15 @@
 ﻿var CalendarController = angular.module("CalendarController", []);
 
 CalendarController.controller('CalendarController',
-    ['$scope', 'CalendarService', 'AuthService',
-        function ($scope, calendarService, authService) {
+    ['$scope', '$window', 'CalendarService', 'AuthService',
+        function ($scope, $window, calendarService, authService) {
             //'use strict';
 
             //$scope.calendarData = calendarService.getVisibleDays();
             // see http://fullcalendar.io/docs/usage/
+            if(authService.getUser() == null) {
+              $location.path('/login');
+            }
 
             var me = this; // Use "me" so we don't lose a reference to "this"
 
@@ -34,7 +37,7 @@ CalendarController.controller('CalendarController',
                         EventIsAllDay: false,
                         EventStartDate: dateInfo._d,
                         EventEndDate: new Date(dateInfo._d.getTime() + (1 * 60 * 60 * 1000)),
-                    }, 
+                    },
                     function () {
                         me.refreshCalendar();
                     }
