@@ -1,9 +1,11 @@
 ﻿var WeatherController = angular.module("WeatherController", []);
 
 WeatherController.controller('WeatherController',
-    ['$scope', 'WeatherService', 'AuthService', '$location',
-        function ($scope, weatherService, authService, $location) {
-    //'use strict';
+    ['$scope', '$window', 'WeatherService', 'AuthService', '$location',
+        function ($scope, $window, weatherService, authService, $location) {
+            if(authService.getUser() == null) {
+              $location.path('/login');
+            }
 
             $scope.zipError = false;
 

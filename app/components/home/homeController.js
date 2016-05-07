@@ -1,20 +1,32 @@
 ﻿var HomeController = angular.module("HomeController", []);
 
 HomeController.controller('HomeController',
-    ['$scope', 'WeatherService', 'StockService', 'AuthService',
-        function ($scope, weatherService, stockService, authService) {
+    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService', 'CaveWallAPIService',
+        function ($scope, $location, weatherService, stockService, authService, caveWallAPIService) {
             //'use strict';
+            if(authService.getUser() == null) {
+              $location.path('/login');
+            }
 
             $scope.stocks = [];
-
-            stockService.getStockTicker(function (stocks) {
-                $scope.stocks = stocks;
-                $scope.$apply();
+            caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
+              $scope.stocks = stocks;
+              $scope.$apply();
+              $('.stock').each(function(index){
+                var child = $(this).find('.change');
+                if(child.text().includes('-'))
+                  child.addClass('negative');
+                else if (child.text().includes('+'))
+                  child.addClass('positive');
+              });
+            }, function(data) {
+              console.log('error getting stocks');
             });
 
             $scope.loggedIn = false;
             authService.doOnLogin('homeControllerLogin', function (user) {
                 $scope.loggedIn = true;
+                $scope.facebookUserID = user.id;
                 authService.getUserFeed(function (userWall) {
                     $scope.wall = userWall.data;
                 });
@@ -25,7 +37,17 @@ HomeController.controller('HomeController',
                 $scope.wall = [];
             });
 
-
+            $scope.message = "";
+            $scope.doPost = function() {
+              console.log($scope.message);
+              if($scope.message != "") {
+                authService.postToWall(function(data){
+                  $scope.message = "";
+                  $scope.$apply();
+                  console.log(data);
+                }, $scope.message);
+              }
+            }
 
             $scope.zipError = false;
             $scope.currentZipCode = weatherService.getCurrentZipCode();

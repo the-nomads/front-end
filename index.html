@@ -1,49 +1,55 @@
 ﻿<!doctype html>
 <html lang="en" ng-app="angApp">
-<body class="pushable">
-    <div id="navbar" ng-controller="FacebookLoginController">
-        <div ng-include src="'app/components/shared/facebook/facebookLoginView.html'"></div>
-    </div>
-    <div class="ui container segment secondary">
-        <div class="ng-view" ug></div>
-    </div>
-    <script>
-        var useMockedBackEnd = false;
-        var CaveWallAPIURL = "http://vm344f.se.rit.edu/";
-    </script>
-    <script src="/assets/scripts/util.js"></script>
-
-    <script src="/assets/scripts/lib/jquery-2.2.1.min.js"></script>
-    <script src="/assets/scripts/lib/angular.min.js"></script>
-    <script src="/assets/scripts/lib/angular-route.min.js"></script>
-    <script src="/assets/scripts/lib/ngFacebook.js"></script>
-    <script src="/assets/scripts/lib/semantic.min.js"></script>
-    <script src='/assets/scripts/lib/moment.min.js'></script>
-    <script src='/assets/scripts/lib/fullcalendar.min.js'></script>
-    <script src='/assets/scripts/lib/gcal.js'></script>
-    <script src='/assets/scripts/lib/Chart.min.js'></script>
-    <script src='/assets/scripts/lib/angular-chart.min.js'></script>
-    <script src='/assets/scripts/lib/jquery-dateFormat.min.js'></script>
-    <script src='/assets/scripts/lib/js.cookie.js'></script>
-
-    <script src="/app/services/weatherService.js"></script>
-    <script src="/app/services/stockService.js"></script>
-    <script src="/app/services/calendarService.js"></script>
-    <script src="/app/services/authService.js"></script>
-    <script src="/app/services/caveWallAPIService.js"></script>
-
-    <script src="/app/components/shared/facebook/facebookLoginController.js"></script>
-    <script src="/app/components/home/homeController.js"></script>
-    <script src="/app/components/calendar/calendarController.js"></script>
-    <script src="/app/components/stockSearch/stockSearchController.js"></script>
-    <script src="/app/components/weather/weatherController.js"></script>
-    <script src="/app/components/test/testController.js"></script>
-
-    <script src="/app/app.js"></script>
-
+  <head>
     <link rel="stylesheet" type="text/css" href="/assets/css/lib/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/lib/fullcalendar.min.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/lib/fullcalendar.print.css" media="print" />
     <link rel="stylesheet" type="text/css" href="/assets/css/lib/angular-chart.min.css" />
-</body>
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css" />
+    <title ng-bind="title">Cave Wall</title>
+  </head>
+  <body class="pushable">
+      <div id="navbar" ng-controller="FacebookLoginController">
+          <div ng-include src="'app/components/shared/facebook/facebookLoginView.html'"></div>
+      </div>
+      <div id="container" class="ui container segment secondary">
+          <div id="view" class="ng-view" ug></div>
+      </div>
+      <script>
+          var useMockedBackEnd = false;
+          var CaveWallAPIURL = "http://vm344f.se.rit.edu/";
+      </script>
+      <script src="/assets/scripts/util.js"></script>
+      <script src="/assets/scripts/lib/jquery-2.2.1.min.js"></script>
+      <script src="/assets/scripts/lib/angular.min.js"></script>
+      <script src="/assets/scripts/lib/angular-route.min.js"></script>
+      <script src="/assets/scripts/lib/ngFacebook.js"></script>
+      <script src="/assets/scripts/lib/semantic.min.js"></script>
+      <script src='/assets/scripts/lib/moment.min.js'></script>
+      <script src='/assets/scripts/lib/fullcalendar.min.js'></script>
+      <script src='/assets/scripts/lib/gcal.js'></script>
+      <script src='/assets/scripts/lib/Chart.min.js'></script>
+      <script src='/assets/scripts/lib/angular-chart.min.js'></script>
+      <script src='/assets/scripts/lib/jquery-dateFormat.min.js'></script>
+      <script src='/assets/scripts/lib/js.cookie.js'></script>
+      <script type='text/javascript' src='//cdn.jsdelivr.net/jquery.marquee/1.3.9/jquery.marquee.min.js'></script>
+
+      <script src="/app/services/weatherService.js"></script>
+      <script src="/app/services/stockService.js"></script>
+      <script src="/app/services/calendarService.js"></script>
+      <script src="/app/services/authService.js"></script>
+      <script src="/app/services/caveWallAPIService.js"></script>
+
+      <script src="/app/components/shared/facebook/facebookLoginController.js"></script>
+      <script src="/app/components/home/homeController.js"></script>
+      <script src="/app/components/calendar/calendarController.js"></script>
+      <script src="/app/components/stocks/stockSearchController.js"></script>
+      <script src="/app/components/stocks/subviews/myStocksController.js"></script>
+      <script src="/app/components/stocks/subviews/transactionHistoryController.js"></script>
+      <script src="/app/components/weather/weatherController.js"></script>
+      <script src="/app/components/test/testController.js"></script>
+      <script src="/app/components/login/loginController.js"></script>
+
+      <script src="/app/app.js"></script>
+  </body>
 </html>

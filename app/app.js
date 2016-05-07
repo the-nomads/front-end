@@ -20,8 +20,13 @@ var angApp = angular.module('angApp', [
     'HomeController',
     'FacebookLoginController',
     'CalendarController',
+
     'StockSearchController',
+    'MyStocksController',
+    'TransactionHistoryController',
+
     'WeatherController',
+    'LoginController',
 
     'TestController',
 
@@ -48,14 +53,18 @@ angApp.config(['$routeProvider', '$facebookProvider',
 
         $routeProvider.
             when('/', {
-                redirectTo: '/home',
-                title: 'Home'
-			}).
+                redirectTo: '/login'
+			      }).
+            when('/login', {
+                templateUrl: 'app/components/login/loginView.html',
+				        controller: 'LoginController',
+				        title: 'Login'
+            }).
             when('/home', {
                 templateUrl: 'app/components/home/homeView.html',
-				controller: 'HomeController',
-				title: 'Home',
-                activetab: 'home',
+				        controller: 'HomeController',
+				        title: 'Home',
+                activetab: 'home'
             }).
             when('/calendar', {
                 templateUrl: 'app/components/calendar/calendarView.html',
@@ -64,7 +73,7 @@ angApp.config(['$routeProvider', '$facebookProvider',
                 activetab: 'calendar'
             }).
             when('/stockSearch', {
-                templateUrl: 'app/components/stockSearch/stockSearchView.html',
+                templateUrl: 'app/components/stocks/stockSearchView.html',
                 controller: 'StockSearchController',
                 title: 'Stock Search',
                 activetab: 'stocksearch'
@@ -82,8 +91,7 @@ angApp.config(['$routeProvider', '$facebookProvider',
                 activetab: 'test'
             }).
             otherwise({
-                redirectTo: '/home',
-                title: 'Home'
+                redirectTo: '/login'
             });
     }
 ]);
@@ -106,7 +114,6 @@ angApp.run(['$rootScope', '$window', function ($rootScope, $window) {
     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
 
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $rootScope.title = current.$$route.title;
+      $rootScope.title = current.$$route.title;
     });
 }]);
-

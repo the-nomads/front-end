@@ -30,6 +30,17 @@ authService.service('AuthService', ['$facebook', function ($facebook) {
         });
     };
 
+    this.postToWall = function (callback, message) {
+        $facebook.api("/" + this.userLoggedIn.id + "/feed", "POST", {
+          "message": message
+        }).then(function (response) {
+          console.log(response);
+          if (response && !response.error) {
+            callback(response.id);
+          }
+        });
+    };
+
     this.onLoginQueue = [];
     this.loginCallbackNames = [];
     this.doOnLogin = function (callbackName, callback) {
