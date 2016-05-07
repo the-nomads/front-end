@@ -22,6 +22,22 @@ caveWallAPIService.service('CaveWallAPIService', ['$facebook', 'AuthService', fu
             if (dataToPost != null)
                 realData = JSON.stringify(dataToPost);
 
+            if (method == "GET") {
+                realData = null;
+                if (dataToPost != null) {
+                    var isQ = true;
+                    for (var i in dataToPost) {
+                        if (isQ) {
+                            callUrl += "?";
+                        } else {
+                            callUrl += "&";
+                        }
+                        callUrl += i + "=" + encodeURIComponent(dataToPost[i]);
+                        isQ = false;
+                    }
+                }
+            }
+
             var extraHeaders = {};
             var fbResponse = $facebook.getAuthResponse();
             if (fbResponse) {

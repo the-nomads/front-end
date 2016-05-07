@@ -80,4 +80,28 @@ TestController.controller('TestController',
 
             $scope.LoadTransactions();
             $scope.LoadBalance();
+
+            $scope.DoOtherThings = function () {
+                CaveWallAPIService.makeCall("GET", "stocks", "GOOG", null,
+                    function (data) {
+                        // On success
+                        console.log("GOOG Data: ")
+                        console.log(data);
+
+                    },
+                    function () {
+                        // On error
+                    });
+
+                CaveWallAPIService.makeCall("GET", "stocks/owned", null, null,
+                    function (data) {
+                        // On success
+                        console.log("Owned Stocks")
+                        console.log(data);
+
+                    },
+                    function () {
+                        // On error
+                    });
+            };
         }]);

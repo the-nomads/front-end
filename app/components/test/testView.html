@@ -9,6 +9,8 @@
     <span>Balance: {{balance}}</span>
     <br />
     <button ng-click="LoadTransactions()">Load Transactions</button>
+    <br />
+    <button ng-click="DoOtherThings()">Do other things</button>
     <div>
         <div ng-repeat="transaction in transactions">
             <span ng-show="transaction.FinancialTransactionDirection == 'OUT'" style="color: #FF0000">- {{transaction.Amount}}</span>
