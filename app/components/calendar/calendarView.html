@@ -1,6 +1,6 @@
 <main class="container container-body">
     <div id="calendar"></div>
-    <div class="ui modal" id="event-modal">
+    <form class="ui modal" id="event-modal" ng-submit="eventSubmit(newEvent)">
         <i class="close icon"></i>
         <div class="header">
             <span ng-show="newEvent.EventID != null">Edit Event:</span>
@@ -40,10 +40,10 @@
             <div class="actions">
                 <div class="ui button red" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</div>
                 <div class="ui button" ng-click="eventDiscard()">Discard Event</div>
-                <div class="ui green button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID != null">Edit Event</div>
-                <div class="ui green button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID == null">Add Event</div>
+                <div class="ui green button" type="submit" ng-show="newEvent.EventID != null">Edit Event</div>
+                <div class="ui green button" type="submit" ng-show="newEvent.EventID == null">Add Event</div>
             </div>
-        </div>
+        </form>
     </div>
     <script>
         function disabletime() {
