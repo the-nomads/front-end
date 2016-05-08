@@ -1,8 +1,8 @@
 ﻿var StockSearchController = angular.module("StockSearchController", []);
 
 StockSearchController.controller('StockSearchController',
-    ['$scope', '$window', 'StockService', 'AuthService', '$location', 'CaveWallAPIService',
-        function ($scope, $window, stockService, authService, $location, caveWallAPIService) {
+    ['$scope', '$window', 'StockService', 'AuthService', '$location',
+        function ($scope, $window, stockService, authService, $location) {
             //'use strict';
             if(authService.getUser() == null) {
               $location.path('/login');
@@ -13,13 +13,6 @@ StockSearchController.controller('StockSearchController',
             $scope.stockDetails = null;
 
             $scope.stocks = [];
-
-            caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
-              $scope.stocks = stocks;
-              $scope.$apply();
-            }, function(data) {
-              console.log('error getting stocks');
-            });
 
             $scope.back = function () {
                 $scope.currentStockSymbol = null;
