@@ -38,7 +38,7 @@
                 {{eventError}}
             </div>
             <div class="actions">
-                <div class="ui button negative" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</div>
+                <div class="ui button red" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</div>
                 <div class="ui button" ng-click="eventDiscard()">Discard Event</div>
                 <div class="ui green button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID != null">Edit Event</div>
                 <div class="ui green button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID == null">Add Event</div>
