@@ -41,27 +41,30 @@ StockSearchController.controller('StockSearchController',
 
             $scope.loadBalance();
 
-            $scope.loadTransactions = function() {
-              api.makeCall('GET', 'users/financialtransactions', 'all', null, function (transactions) {
-                  transactions.forEach(function (item, index) {
-                      item.TransactionDate = new Date(item.TransactionDate);
-                  });
-                  $scope.transactions = transactions;
-                  $scope.$apply();
-              }, function (data) {
-                  console.log('error getting transactions');
-              });
+            $scope.loadTransactions = function () {
+                $scope.transactions = stockService.getTransactions();
+                //api.makeCall('GET', 'users/financialtransactions', 'all', null, function (transactions) {
+                //    transactions.forEach(function (item, index) {
+                //        item.TransactionDate = new Date(item.TransactionDate);
+                //    });
+                //    $scope.transactions = transactions;
+                //    $scope.$apply();
+                //}, function (data) {
+                //    console.log('error getting transactions');
+                //});
             }
 
             $scope.loadTransactions();
 
-            $scope.deleteTransctions = function() {
-              api.makeCall('DELETE', 'users/financialtransactions', 'all', null, function(){
-                $scope.transactions = null;
-                $scope.$apply();
-              }, function() {
-                console.log("couldn't delete transaction history");
-              });
+            $scope.deleteTransctions = function () {
+                stockService.deleteTransactions();
+                $scope.loadTransactions();
+                //api.makeCall('DELETE', 'users/financialtransactions', 'all', null, function () {
+                //    $scope.transactions = null;
+                //    $scope.$apply();
+                //}, function () {
+                //    console.log("couldn't delete transaction history");
+                //});
             }
 
             $scope.loadStocks = function() {

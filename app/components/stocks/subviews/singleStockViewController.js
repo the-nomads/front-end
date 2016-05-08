@@ -65,27 +65,46 @@ SingleStockViewController.controller('SingleStockViewController',
             });
           };
 
-          $scope.doTransaction = function() {
-            var value = $('#purchase_selector').dropdown('get value');
-            if(value == 'buy' && ($scope.transactionData.shares * $scope.stockDetails.Ask) > $scope.balance.Amount) {
-              $scope.transactionData.error = "Insufficient Funds";
-            } else if (value == 'sell' && $scope.transactionData.shares > $scope.stockPurchaseData.NumberOfStocks) {
-              $scope.transactionData.error = "Insufficient Shares";
-            } else {
-              api.makeCall('POST', 'users/financialtransactions', null, {
-                NumSharesBoughtOrSold: $scope.transactionData.shares,
-                FinancialTransactionDirection: value == 'buy' ? 'OUT' : 'IN',
-                StockName: $scope.currentStockSymbol
-              }, function (data) {
-                  $scope.loadBalance();
-                  $scope.loadTransactions();
-                  $scope.loadStocks();
-                  $scope.transactionData.shares = null;
-                  $scope.transactionData.error = null;
-              }, function (data) {
-                console.log('error with stock transaction');
-              });
-            }
+          $scope.doTransaction = function () {
+              var value = $('#purchase_selector').dropdown('get value');
+              if (value == 'buy' && ($scope.transactionData.shares * $scope.stockDetails.Ask) > $scope.balance.Amount) {
+                  $scope.transactionData.error = "Insufficient Funds";
+              } else if (value == 'sell' && $scope.transactionData.shares > $scope.stockPurchaseData.NumberOfStocks) {
+                  $scope.transactionData.error = "Insufficient Shares";
+              } else {
+                  if (value == 'buy') {
+                      stockService.buyStock($scope.currentStockSymbol, $scope.transactionData.shares,
+                          function () {
+                                  $scope.loadBalance();
+                                  $scope.loadTransactions();
+                                  $scope.loadStocks();
+                                  $scope.transactionData.shares = null;
+                                  $scope.transactionData.error = null;
+                          }, function () { });
+                  } else {
+                      stockService.sellStock($scope.currentStockSymbol, $scope.transactionData.shares,
+                            function () {
+                                $scope.loadBalance();
+                                $scope.loadTransactions();
+                                $scope.loadStocks();
+                                $scope.transactionData.shares = null;
+                                $scope.transactionData.error = null;
+                            }, function () { });
+                  }
+                  //api.makeCall('POST', 'users/financialtransactions', null, {
+                  //    NumSharesBoughtOrSold: $scope.transactionData.shares,
+                  //    FinancialTransactionDirection: value == 'buy' ? 'OUT' : 'IN',
+                  //    StockName: $scope.currentStockSymbol
+                  //}, function (data) {
+                  //    $scope.loadBalance();
+                  //    $scope.loadTransactions();
+                  //    $scope.loadStocks();
+                  //    $scope.transactionData.shares = null;
+                  //    $scope.transactionData.error = null;
+                  //}, function (data) {
+                  //    console.log('error with stock transaction');
+                  //});
+              }
           }
 
           $scope.setCalendarToYear = function () {

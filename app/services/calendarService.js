@@ -125,7 +125,7 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
     }
 
     this.downloadEvent = function (evt) {
-        var blob = new Blob([JSON.stringify(evt)], { type: "text/plain;charset=utf-8" })
+        var blob = new Blob([JSON.stringify(evt)], { type: "application/json" })
         saveAs(blob, 'event.json');
     };
 }]);

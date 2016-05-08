@@ -23,19 +23,19 @@
           <div class="item" ng-show="hasStock">
             Value
             <div class="right floated content">
-              {{stockPurchaseData.NumberOfStocks * stockDetails.Bid}}
+              {{(stockPurchaseData.NumberOfStocks * stockDetails.Bid).toFixed(2)}}
             </div>
           </div>
           <div class="item">
             My Balance
             <div class="right floated content" ng-show="balance != null">
-              {{balance.Amount}} {{balance.Currency}}
+              {{balance.Amount.toFixed(2)}} {{balance.Currency}}
             </div>
           </div>
           <div class="item">
             Value/Share
             <div class="right floated content">
-              {{stockDetails.Bid}}
+              {{stockDetails.Bid.toFixed(2)}}
             </div>
           </div>
         </div>
@@ -87,8 +87,8 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{stockDetails.Bid}}</td>
-                <td>{{stockDetails.Ask}}</td>
+                <td>{{stockDetails.Bid.toFixed(2)}}</td>
+                <td>{{stockDetails.Ask.toFixed(2)}}</td>
                 <td>{{stockDetails.Change}}</td>
                 <td>{{stockDetails.Volume}}</td>
                 <td>{{stockDetails.DaysHigh}}</td>

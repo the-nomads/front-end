@@ -2,14 +2,15 @@
   <div class="ui fourteen wide computer sixteen wide tablet column">
     <div class="ui one column grid">
       <div class="right aligned column">
+        <div class="ui button blue" ng-click="downloadTransactions()">Download Transactions</div>
         <div class="ui button" ng-click="beginUpload()">Upload Transactions From File</div>
-        <div class="ui button" ng-click="beginDelete()" ng-hide="transactions.length == 0">Delete All Transactions</div>
+        <div class="ui button red" ng-click="beginDelete()" ng-hide="transactions.length == 0">Delete All Transactions</div>
         <div ng-show="confirmDelete">
-          <div class="ui negative message">
+          <div class="ui negative message" style="margin-top: 1em;">
             This action will delete all of your records of your transactions. Are you sure you want to continue?
           </div>
           <div class="ui button" ng-click="cancelDelete()">Cancel</div>
-          <div class="negative ui button" ng-click="completeDeleteAction()">Delete All Transactions</div>
+          <div class="negative ui button" ng-click="completeDeleteAction()">Confirm</div>
         </div>
       </div>
       <div class="column" style="overflow: scroll;">

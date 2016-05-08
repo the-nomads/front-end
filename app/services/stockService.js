@@ -1,6 +1,6 @@
 ﻿var stockService = angular.module('StockService', []);
 
-stockService.service('StockService', [function () {
+stockService.service('StockService', ['CaveWallAPIService', function (CaveWallAPIService) {
     //'use strict';
 
     this.defaultStocks = ["GOOG", "YHOO", "AAPL", "AMZN", "MSFT"];
@@ -10,7 +10,7 @@ stockService.service('StockService', [function () {
     this.urlAppendTimeline = "&format=json&env=store://datatables.org/alltableswithkeys&callback=";
 
 
-    function GetTransactions() {
+    this.getTransactions = function() {
         var transactions = JSON.parse(localStorage.getItem("financialTransactions"));
         if (transactions == null) {
             transactions = [];
@@ -19,9 +19,17 @@ stockService.service('StockService', [function () {
         return transactions;
     }
 
+    this.downloadTransactions = function () {
+        var transactions = this.getTransactions();
+        var blob = new Blob([JSON.stringify(transactions)], { type: "application/json" })
+        saveAs(blob, 'financialtransactions.json');
+    };
+
     function SaveTransactions(transactions) {
         localStorage.setItem("financialTransactions", JSON.stringify(transactions));
     }
+
+    var loadTransactions = this.getTransactions;
 
     function buyOrSellStock(direction, stockSymbol, numStocks, onSuccess, onError) {
         CaveWallAPIService.makeCall("POST", "users/financialtransactions", null,
@@ -33,7 +41,7 @@ stockService.service('StockService', [function () {
         function (financialTransaction) {
             // On success
 
-            var transactions = GetTransactions();
+            var transactions = loadTransactions();
             transactions.push(financialTransaction);
             SaveTransactions(transactions);
 
@@ -49,7 +57,7 @@ stockService.service('StockService', [function () {
         });
     }
 
-    this.DeleteTransactions = function() {
+    this.deleteTransactions = function() {
         SaveTransactions([]);
     }
 
