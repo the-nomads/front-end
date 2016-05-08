@@ -1,8 +1,8 @@
 ﻿var StockSearchController = angular.module("StockSearchController", []);
 
 StockSearchController.controller('StockSearchController',
-    ['$scope', '$window', 'StockService', 'AuthService', '$location',
-        function ($scope, $window, stockService, authService, $location) {
+    ['$scope', '$window', 'StockService', 'AuthService', '$location', 'CaveWallAPIService',
+        function ($scope, $window, stockService, authService, $location, api) {
             //'use strict';
             if(authService.getUser() == null) {
               $location.path('/login');
@@ -12,16 +12,60 @@ StockSearchController.controller('StockSearchController',
             $scope.currentStockSymbol = $location.search().stock;
             $scope.stockDetails = null;
             $scope.hasQuery = false;
+            $scope.hasStock = false;
+            $scope.stockPurchaseData = null;
 
             $scope.stocks = [];
+            $scope.transactions = [];
+            $scope.balance = null;
 
             $scope.back = function () {
                 $scope.currentStockSymbol = null;
                 $scope.stockDetails = null;
                 $scope.hasQuery = false;
-                $scope.$apply();
+                $scope.hasStock = false;
+                $scope.stockPurchaseData = null;
                 $location.path('/stocks');
             }
+
+            $scope.loadBalance = function () {
+                api.makeCall("GET", "users/balance", null, null,
+                function (data) {
+                    $scope.balance = data;
+                    $scope.$apply();
+                },
+                function () {
+                    // On error
+                });
+            }
+
+            $scope.loadBalance();
+
+            $scope.loadTransactions = function() {
+              api.makeCall('GET', 'users/financialtransactions', 'all', null, function (transactions) {
+                  transactions.forEach(function (item, index) {
+                      item.TransactionDate = new Date(item.TransactionDate);
+                  });
+                  $scope.transactions = transactions;
+                  $scope.$apply();
+              }, function (data) {
+                  console.log('error getting transactions');
+              });
+            }
+
+            $scope.loadTransactions();
+
+            $scope.loadStocks = function() {
+              api.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
+                $scope.stocks = stocks;
+                $scope.$broadcast('showStocks');
+                $scope.$apply();
+              }, function(data) {
+                console.log('error getting stocks');
+              });
+            }
+
+            $scope.loadStocks();
 
             $scope.stockSearch = function () {
                 if ($scope.currentStockSymbol == null || $scope.currentStockSymbol == "") {

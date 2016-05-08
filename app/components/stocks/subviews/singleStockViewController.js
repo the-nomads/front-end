@@ -1,9 +1,10 @@
 var SingleStockViewController = angular.module("SingleStockViewController", []);
 
 SingleStockViewController.controller('SingleStockViewController',
-    ['$scope', '$window', 'StockService',
-        function ($scope, $window, stockService) {
+    ['$scope', '$window', 'StockService', 'CaveWallAPIService',
+        function ($scope, $window, stockService, api) {
           $scope.chartLoading = false;
+          $scope.transactionData = {};
 
           $scope.chartOptions = {
               datasetFill: false,
@@ -22,13 +23,70 @@ SingleStockViewController.controller('SingleStockViewController',
 
           var dateRangeSet = false;
 
+          $scope.$on('showStocks', function(e) {
+            $scope.stocks.forEach(function(item, index){
+              if(item.StockName == $scope.currentStockSymbol) {
+                $scope.hasStock = true;
+                $scope.stockPurchaseData = item;
+                $scope.transactionData.note = item.UserNote;
+                $scope.$apply();
+                return;
+              }
+            });
+          });
+
           $scope.$on('init', function(e) {
+            var found = false;
+            $scope.stocks.forEach(function(item, index){
+              if(item.StockName == $scope.currentStockSymbol) {
+                found = true;
+                $scope.stockPurchaseData = item;
+                $scope.transactionData.note = item.UserNote;
+                return;
+              }
+            });
+            $scope.hasStock = found;
+            $scope.$apply();
             if (dateRangeSet) {
                 $scope.reloadChart();
             } else {
                 $scope.setCalendarToMonth();
             }
           });
+
+          $scope.saveNotes = function () {
+            api.makeCall('PUT', 'stocks/notes', null, {
+              StockName: $scope.currentStockSymbol,
+              NoteToPost: $scope.transactionData.note
+            }, null, function (data) {
+              $scope.transactionData.note = "";
+              console.log('error saving note');
+              $scope.$apply();
+            });
+          };
+
+          $scope.doTransaction = function() {
+            var value = $('#purchase_selector').dropdown('get value');
+            if(value == 'buy' && ($scope.transactionData.shares * $scope.stockDetails.Ask) > $scope.balance.Amount) {
+              $scope.transactionData.error = "Insufficient Funds";
+            } else if (value == 'sell' && $scope.transactionData.shares > $scope.stockPurchaseData.NumberOfStocks) {
+              $scope.transactionData.error = "Insufficient Shares";
+            } else {
+              api.makeCall('POST', 'users/financialtransactions', null, {
+                NumSharesBoughtOrSold: $scope.transactionData.shares,
+                FinancialTransactionDirection: value == 'buy' ? 'OUT' : 'IN',
+                StockName: $scope.currentStockSymbol
+              }, function (data) {
+                  $scope.loadBalance();
+                  $scope.loadTransactions();
+                  $scope.loadStocks();
+                  $scope.transactionData.shares = null;
+                  $scope.transactionData.error = null;
+              }, function (data) {
+                console.log('error with stock transaction');
+              });
+            }
+          }
 
           $scope.setCalendarToYear = function () {
               dateRangeSet = true;

@@ -27,7 +27,7 @@
         <div ng-include src="'app/components/stocks/subviews/transactionHistory.html'" ng-controller="TransactionHistoryController"></div>
       </div>
     </div>
-    <div ng-show="hasQuery" ng-include src="'app/components/stocks/subviews/singleStockView.html'" ng-controller="SingleStockViewController"></div>
+    <div ng-show="hasQuery" class="sixteen wide column" ng-include src="'app/components/stocks/subviews/singleStockView.html'" ng-controller="SingleStockViewController"></div>
     <script>
       $('#tabs.menu .item').tab();
     </script>
