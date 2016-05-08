@@ -195,6 +195,9 @@ CalendarController.controller('CalendarController',
                     },
                     loading: function (bool) {
                         $('#loading').toggle(bool);
+                    },
+                    eventRender: function (evt, element) {
+                        element.find('.fc-time').text($.format.date(evt.EventStartDate, "h:mm a"));
                     }
                 });
                 });

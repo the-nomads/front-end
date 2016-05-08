@@ -157,10 +157,15 @@ i.icon.usfacebook.official {
     background-color: #5aA7Cd;
 }
 
-.fc-day {
+/*.fc-day {
     cursor: pointer;
 }
 
 .fc-day:hover {
     background-color: #FCFCFC;
+}*/
+
+
+.fc-content {
+    white-space: pre-wrap !important;
 }
