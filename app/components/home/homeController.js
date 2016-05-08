@@ -10,7 +10,7 @@ HomeController.controller('HomeController',
 
             $scope.events = [];
             $scope.eventsLoaded = false;
-            calendarService.getAllEvents(function (data) {
+            calendarService.getAllFutureEvents(function (data) {
                 $scope.events = data;
                 $scope.eventsLoaded = true;
                 $scope.$apply();

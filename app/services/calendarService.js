@@ -41,6 +41,40 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         });
     }
 
+    this.getAllFutureEvents = function (callback, onError) {
+        CaveWallAPIService.makeCall("GET", "users/events", "all", null,
+        function (data) {
+            // On success
+            var resultData = [];
+
+            if (data != null) {
+                for (var i in data) {
+                    var evt = data[i];
+                    evt.title = evt.EventName;
+                    evt.start = evt.EventStartDate;
+                    evt.end = evt.EventEndDate;
+                    evt.allDay = evt.EventIsAllDay;
+                    evt.EventStartDate = new Date(evt.EventStartDate);
+                    evt.EventEndDate = new Date(evt.EventEndDate);
+                    evt.isToday = (evt.EventStartDate.toDateString() == new Date().toDateString());
+                    if (!evt.IsDeleted && evt.EventStartDate >= new Date()) {
+                        resultData.push(evt);
+                    }
+                }
+            }
+            if (callback) {
+                callback(resultData);
+            }
+
+        },
+        function () {
+            // On error
+            if (onError) {
+                onError();
+            }
+        });
+    }
+
     this.postEvent = function (eventToPost, onCompleteCallback) {
         CaveWallAPIService.makeCall("POST", "users/events", null, eventToPost,
         function () {
@@ -58,7 +92,7 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
 
     this.updateEvent = function (eventToPost, onCompleteCallback) {
 
-        
+
         CaveWallAPIService.makeCall("PUT", "users/events", eventToPost.EventID, eventToPost,
         function () {
             // On success
