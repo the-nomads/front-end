@@ -31,14 +31,15 @@ authService.service('AuthService', ['$facebook', function ($facebook) {
     };
 
     this.postToWall = function (callback, message) {
-        $facebook.api("/" + this.userLoggedIn.id + "/feed", "POST", {
-          "message": message
-        }).then(function (response) {
-          console.log(response);
-          if (response && !response.error) {
-            callback(response.id);
-          }
-        });
+        console.log("/" + this.userLoggedIn.id + "/feed")
+        $facebook.api("/" + this.userLoggedIn.id + "/feed", "post", { "message": message })
+            .then(function (response) {
+                if (callback) {
+                    callback();
+                }
+            })
+            .catch(function(error) {
+            });
     };
 
     this.onLoginQueue = [];
