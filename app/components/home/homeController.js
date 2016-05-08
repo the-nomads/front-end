@@ -11,7 +11,6 @@ HomeController.controller('HomeController',
             $scope.stocks = [];
             caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
               $scope.stocks = stocks;
-              console.log(stocks);
               $scope.$apply();
               $('.stock').each(function(index){
                 var child = $(this).find('.change');

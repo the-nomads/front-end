@@ -1,7 +1,7 @@
 <main>
   <marquee id="marquee" class="ticker" onmouseover="this.stop();" onmouseout="this.start();">
     <div ng-repeat="stock in stocks track by $index" class="stock">
-      <a href="#stockSearch?stock={{stock.symbol}}" class="symbol">{{stock.StockName}}</a>
+      <a href="#stocks?stock={{stock.symbol}}" class="symbol">{{stock.StockName}}</a>
       {{stock.Quote.Ask}}
       <span class="change">
         ({{stock.Quote.Change}})

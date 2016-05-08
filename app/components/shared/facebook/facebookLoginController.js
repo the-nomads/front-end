@@ -3,17 +3,20 @@
 facebookLoginController.controller('FacebookLoginController', ['$scope', '$location', '$facebook', 'AuthService', '$route',
     function ($scope, $location, $facebook, authService, $route) {
         $scope.$route = $route;
-        var user = authService.getUser();
-        if(user != null) {
-          $scope.userName = authService.getUser().name;
-          $scope.facebookUserID = authService.getUser().id;
-        }
 
         $scope.logout = function () {
-            $facebook.logout().then(refresh);
+            $facebook.logout().then(doLogout);
         }
 
-        function refresh() {
+        authService.doOnLogin('header', function() {
+          var user = authService.getUser();
+          if(user != null) {
+            $scope.userName = authService.getUser().name;
+            $scope.facebookUserID = authService.getUser().id;
+          }
+        });
+
+        function doLogout() {
           $scope.userName = "";
           $scope.facebookUserID = "";
           $scope.isLoggedIn = false;
