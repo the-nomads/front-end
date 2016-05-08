@@ -7,19 +7,37 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         return { data: "I don't know how we want to do this... probably a Calendar angular js library of some sort..." };
     };
 
-    this.getAllEvents = function (callback) {
+    this.getAllEvents = function (callback, onError) {
         CaveWallAPIService.makeCall("GET", "users/events", "all", null,
         function (data) {
             // On success
-            console.log("events: ")
-            console.log(data);
+            var resultData = [];
+
+            if (data != null) {
+                for (var i in data) {
+                    var evt = data[i];
+                    evt.title = evt.EventName;
+                    evt.start = evt.EventStartDate;
+                    evt.end = evt.EventEndDate;
+                    evt.allDay = evt.EventIsAllDay;
+                    evt.EventStartDate = new Date(evt.EventStartDate);
+                    evt.EventEndDate = new Date(evt.EventEndDate);
+                    evt.isToday = (evt.EventStartDate.toDateString() == new Date().toDateString());
+                    if (!evt.IsDeleted) {
+                        resultData.push(evt);
+                    }
+                }
+            }
             if (callback) {
-                callback(data);
+                callback(resultData);
             }
 
         },
         function () {
             // On error
+            if (onError) {
+                onError();
+            }
         });
     }
 

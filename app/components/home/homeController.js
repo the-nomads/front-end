@@ -1,17 +1,36 @@
 ﻿var HomeController = angular.module("HomeController", []);
 
 HomeController.controller('HomeController',
-    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService', 'CaveWallAPIService',
-        function ($scope, $location, weatherService, stockService, authService, caveWallAPIService) {
+    ['$scope', '$location', 'WeatherService', 'StockService', 'AuthService', 'CaveWallAPIService', 'CalendarService',
+        function ($scope, $location, weatherService, stockService, authService, caveWallAPIService, calendarService) {
             //'use strict';
             if(authService.getUser() == null) {
               $location.path('/login');
             }
 
+            $scope.events = [];
+            $scope.eventsLoaded = false;
+            calendarService.getAllEvents(function (data) {
+                $scope.events = data;
+                $scope.eventsLoaded = true;
+                $scope.$apply();
+            }, function() {
+                $scope.eventsLoaded = true;
+                $scope.$apply();
+            });
+
             $scope.stocks = [];
-            caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
-              $scope.stocks = stocks;
-              $scope.$apply();
+            $scope.stocksLoaded = false;
+            caveWallAPIService.makeCall('GET', 'stocks/owned', null, null, function (stocks) {
+                var stockarr = [];
+                for (var i in stocks) {
+                    if (stocks[i].NumberOfStocks > 0) {
+                        stockarr.push(stocks[i]);
+                    }
+                }
+                $scope.stocks = stockarr;
+                $scope.stocksLoaded = true;
+                $scope.$apply();
               $('.stock').each(function(index){
                 var child = $(this).find('.change');
                 if(child.text().includes('-'))
@@ -20,7 +39,8 @@ HomeController.controller('HomeController',
                   child.addClass('positive');
               });
             }, function(data) {
-              console.log('error getting stocks');
+                $scope.stocksLoaded = true;
+                $scope.$apply();
             });
 
             $scope.loggedIn = false;
