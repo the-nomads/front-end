@@ -6,7 +6,7 @@ CalendarController.controller('CalendarController',
             //'use strict';
 
             function stripEvent(evt) {
-                var obj = 
+                var obj =
                 {
                     EventEndDate: evt.EventEndDate,
                     EventID: evt.EventID,
@@ -85,6 +85,14 @@ CalendarController.controller('CalendarController',
                 evt.EventEndDate = new Date(evt.EventEndDate.setMinutes(evt.endMinute));
             }
 
+            $scope.downloadEvent = function () {
+
+            }
+
+            $scope.uploadEvent = function () {
+
+            }
+            
             $scope.eventError = null;
             $scope.eventSubmit = function (newEvent) {
                 $scope.eventError = null;
@@ -174,7 +182,7 @@ CalendarController.controller('CalendarController',
                         $scope.$apply();
                         return false;
                     },
-                    
+
                     dayClick: function (dateInfo) {
                         $scope.newEvent = {
                             // Fix time zone issue - date is posted in UTC time, which in EST is the day before!

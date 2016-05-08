@@ -15,9 +15,9 @@
                 <label>Event Name  </label>
                 <input type="text" name="event-name" placeholder="Name" style="max-width: 40em" ng-model="newEvent.EventName">
             </div>
-            <div class="field">
-                <input type="checkbox" id="EventRunsAllDay" onchange="disabletime()" ng-model="newEvent.EventIsAllDay">
-                <label for="EventRunsAllDay" style="display: inline-block;">Event Runs All Day</label>
+            <div class="ui checkbox field">
+                <input type="checkbox" id="EventRunsAllDay" ng-model="newEvent.EventIsAllDay">
+                <label for="EventRunsAllDay">Event Runs All Day</label>
             </div>
             <div class="field" id="start" ng-hide="newEvent.EventIsAllDay">
                 <label>Event Start Time  </label>
@@ -43,7 +43,7 @@
         </div>
         <div class="actions">
             <button class="ui button red" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
-            <button class="ui button" ng-click="eventDiscard()">Discard Event</button>
+            <button class="ui button" ng-click="eventDiscard()">Discard Changes</button>
             <button class="ui green button" type="submit" ng-show="newEvent.EventID != null">Edit Event</button>
             <button class="ui green button" type="submit" ng-show="newEvent.EventID == null">Add Event</button>
         </div>
@@ -59,5 +59,6 @@
             $('#event-end-second').val("59");
             $('#event-end-ampm').val("PM");
         }
+        $('.ui.checkbox').checkbox();
     </script>
 </main>
