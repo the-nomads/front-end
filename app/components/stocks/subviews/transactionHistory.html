@@ -1,5 +1,35 @@
 <div class="ui centered grid">
   <div class="ui fourteen wide column">
-    
+    <table class="ui celled padded table">
+      <thead>
+        <tr>
+          <th>Transaction</th>
+          <th>Value</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="trans in transactions track by $index">
+          <td>
+            {{trans.StockName}}
+          </td>
+          <td class="{{trans.FinancialTransactionDirection == 'IN' ? 'positive' : 'negative'}}">
+            {{trans.FinancialTransactionDirection == 'IN' ? '+' : '-'}}{{trans.Amount}} {{trans.Currency}}
+          </td>
+          <td>
+            {{trans.TransactionDate | date : 'medium'}}
+          </td>
+          <td>
+            <button class="ui icon button action" title="Download Information">
+              <i class="cloud download icon"></i>
+            </button>
+            <button class="ui icon button action" title="Delete Transaction">
+              <i class="trash icon"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
