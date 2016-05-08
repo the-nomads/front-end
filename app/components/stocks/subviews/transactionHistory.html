@@ -1,41 +1,45 @@
-<div class="segment">
-    <div class="ui button" ng-click="beginUpload()">Upload Transactions From File</div>
-    <div class="ui button" ng-click="beginDelete()" ng-hide="transactions.length == 0">Delete All Transactions</div>
-    <div ng-show="confirmDelete">
-        <div class="ui negative message">
-            This action will delete all of your records of your transactions. Are you sure you want to continue?
-        </div>
-        <div class="ui button" ng-click="cancelDelete()">Cancel</div>
-        <div class="negative ui button" ng-click="completeDeleteAction()">Delete All Transactions</div>
-    </div>
-</div>
 <div class="ui centered grid">
-    <div class="ui fourteen wide computer sixteen wide tablet column" style="overflow: scroll;">
+  <div class="ui fourteen wide computer sixteen wide tablet column">
+    <div class="ui one column grid">
+      <div class="right aligned column">
+        <div class="ui button" ng-click="beginUpload()">Upload Transactions From File</div>
+        <div class="ui button" ng-click="beginDelete()" ng-hide="transactions.length == 0">Delete All Transactions</div>
+        <div ng-show="confirmDelete">
+          <div class="ui negative message">
+            This action will delete all of your records of your transactions. Are you sure you want to continue?
+          </div>
+          <div class="ui button" ng-click="cancelDelete()">Cancel</div>
+          <div class="negative ui button" ng-click="completeDeleteAction()">Delete All Transactions</div>
+        </div>
+      </div>
+      <div class="column" style="overflow: scroll;">
         <table class="ui unstackable celled padded table">
-            <thead>
-                <tr>
-                    <th>Stock Name</th>
-                    <th># Stocks</th>
-                    <th>Value</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="trans in transactions track by $index">
-                    <td>
-                        {{trans.StockName}}
-                    </td>
-                    <td>
-                        {{trans.NumSharesBoughtOrSold}}
-                    </td>
-                    <td class="{{trans.FinancialTransactionDirection == 'IN' ? 'positive' : 'negative'}}">
-                        {{trans.FinancialTransactionDirection == 'IN' ? 'SELL | + ' : 'BUY | - '}}{{trans.Amount}} {{trans.Currency}}
-                    </td>
-                    <td>
-                        {{trans.TransactionDate | date : 'medium'}}
-                    </td>
-                </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>Stock Name</th>
+              <th># Stocks</th>
+              <th>Value</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="trans in transactions track by $index">
+              <td>
+                {{trans.StockName}}
+              </td>
+              <td>
+                {{trans.NumSharesBoughtOrSold}}
+              </td>
+              <td class="{{trans.FinancialTransactionDirection == 'IN' ? 'positive' : 'negative'}}">
+                {{trans.FinancialTransactionDirection == 'IN' ? 'SELL | + ' : 'BUY | - '}}{{trans.Amount}} {{trans.Currency}}
+              </td>
+              <td>
+                {{trans.TransactionDate | date : 'medium'}}
+              </td>
+            </tr>
+          </tbody>
         </table>
+      </div>
     </div>
+  </div>
 </div>
