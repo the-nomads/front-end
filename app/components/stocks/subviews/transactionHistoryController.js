@@ -15,12 +15,7 @@ TransactionHistoryController.controller('TransactionHistoryController',
 
             $scope.completeDeleteAction = function () {
                 $scope.confirmDelete = false;
-                api.makeCall('DELETE', 'users/financialtransactions', 'all', null, function(){
-                  $scope.transactions = null;
-                  $scope.$apply();
-                }, function() {
-                  console.log("couldn't delete transaction history");
-                })
+                $scope.deleteTransctions();
             };
 
             $scope.beginUpload = function () {

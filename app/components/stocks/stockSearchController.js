@@ -55,6 +55,15 @@ StockSearchController.controller('StockSearchController',
 
             $scope.loadTransactions();
 
+            $scope.deleteTransctions = function() {
+              api.makeCall('DELETE', 'users/financialtransactions', 'all', null, function(){
+                $scope.transactions = null;
+                $scope.$apply();
+              }, function() {
+                console.log("couldn't delete transaction history");
+              });
+            }
+
             $scope.loadStocks = function() {
               api.makeCall('GET', 'stocks/owned', null, null, function(stocks) {
                 $scope.stocks = stocks;
