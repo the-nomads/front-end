@@ -52,25 +52,25 @@
             {{stock.NumberOfStocks}}
           </td>
           <td>
-            {{stock.NumberOfStocks * stock.Quote.Bid}}
+            {{(stock.NumberOfStocks * stock.Quote.Bid).toFixed(2)}}
           </td>
           <td>
             {{stock.TotalNumberOfStocksBought}}
           </td>
           <td>
-            {{stock.TotalValueOfStocksBought}}
+            {{stock.TotalValueOfStocksBought.toFixed(2)}}
           </td>
           <td>
             {{stock.TotalNumberOfStocksSold}}
           </td>
           <td>
-            {{stock.TotalValueOfStocksSold}}
+            {{stock.TotalValueOfStocksSold.toFixed(2)}}
           </td>
           <td class="{{stock.TotalValueOfStocksSold - stock.TotalValueOfStocksBought > 0 ? 'positive' : 'negative'}}">
-            {{stock.TotalValueOfStocksSold - stock.TotalValueOfStocksBought}}
+            {{(stock.TotalValueOfStocksSold - stock.TotalValueOfStocksBought).toFixed(2)}}
           </td>
           <td class="{{stock.TotalValueOfStocksSold + stock.NumberOfStocks * stock.Quote.Bid - stock.TotalValueOfStocksBought > 0 ? 'positive' : 'negative'}}">
-            {{stock.TotalValueOfStocksSold + stock.NumberOfStocks * stock.Quote.Bid - stock.TotalValueOfStocksBought}}
+            {{(stock.TotalValueOfStocksSold + stock.NumberOfStocks * stock.Quote.Bid - stock.TotalValueOfStocksBought).toFixed(2)}}
           </td>
         </tr>
       </tbody>

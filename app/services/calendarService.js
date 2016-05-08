@@ -57,7 +57,7 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
                     evt.EventStartDate = new Date(evt.EventStartDate);
                     evt.EventEndDate = new Date(evt.EventEndDate);
                     evt.isToday = (evt.EventStartDate.toDateString() == new Date().toDateString());
-                    if (!evt.IsDeleted && evt.EventStartDate >= new Date()) {
+                    if (!evt.IsDeleted && (evt.EventStartDate.getTime() >= new Date().getTime() || evt.isToday)) {
                         resultData.push(evt);
                     }
                 }
@@ -108,7 +108,7 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         });
     }
 
-        this.deleteEvent = function (eventToPost, onCompleteCallback) {
+    this.deleteEvent = function (eventToPost, onCompleteCallback) {
         CaveWallAPIService.makeCall("DELETE", "users/events", eventToPost.EventID, null,
         function () {
             // On success
@@ -124,5 +124,8 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         });
     }
 
-
+    this.downloadEvent = function (evt) {
+        var blob = new Blob([JSON.stringify(evt)], { type: "text/plain;charset=utf-8" })
+        saveAs(blob, 'event.json');
+    };
 }]);

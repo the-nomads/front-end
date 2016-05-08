@@ -85,13 +85,15 @@ CalendarController.controller('CalendarController',
                 evt.EventEndDate = new Date(evt.EventEndDate.setMinutes(evt.endMinute));
             }
 
-            $scope.downloadEvent = function () {
-
-            }
+            $scope.downloadEvent = function (evt) {
+                setDateTimeField(evt);
+                evt = stripEvent(evt);
+                calendarService.downloadEvent(evt);
+        };
 
             $scope.uploadEvent = function () {
 
-            }
+        };
             
             $scope.eventError = null;
             $scope.eventSubmit = function (newEvent) {
@@ -212,4 +214,5 @@ CalendarController.controller('CalendarController',
             };
 
             this.refreshCalendar();
+
         }]);
