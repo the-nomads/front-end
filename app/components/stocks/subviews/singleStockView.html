@@ -1,149 +1,182 @@
-<div class="ui vertically divided grid">
-    <div class="two column row">
-        <div class="column four wide">
-            <div class="ui segments segment">
-                <div class="ui segment">
-                    <h1>
-                        <span ng-show="stockDetails.Name != null">
-                            {{stockDetails.Name}}
-                            <span ng-show="stockDetails.symbol != null">
-                                ({{stockDetails.symbol}})
-                            </span>
-                        </span>
-                        <span ng-show="stockDetails.Name == null">
-                            {{stockDetails.symbol}}
-                        </span>
-                    </h1>
-                </div>
-                <div class="ui segment">
-                    <table class="ui celled padded table">
-                        <tbody>
-                            <tr>
-                                <td>Current Bid:</td>
-                                <td>
-                                    {{stockDetails.Bid}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Current Ask:</td>
-                                <td>
-                                    {{stockDetails.Ask}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Change:</td>
-                                <td>
-                                    {{stockDetails.Change}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Volume</td>
-                                <td>{{stockDetails.Volume}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><h3>Daily:</h3></td>
-                            </tr>
-                            <tr>
-                                <td>High:</td>
-                                <td>{{stockDetails.DaysHigh}}</td>
-                            </tr>
-                            <tr>
-                                <td>Low:</td>
-                                <td>{{stockDetails.DaysLow}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><h3>Yearly:</h3></td>
-                            </tr>
-                            <tr>
-                                <td>High:</td>
-                                <td>{{stockDetails.YearHigh}}</td>
-                            </tr>
-                            <tr>
-                                <td>Low:</td>
-                                <td>{{stockDetails.YearLow}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div>
+  <div class="ui vertically divided stackable grid" ng-show="stockDetails != null">
+    <div class="column four wide">
+      <div class="ui padded clearing segment">
+        <h1>
+          <span ng-show="stockDetails.Name != null">
+            {{stockDetails.Name}}
+            <span ng-show="stockDetails.symbol != null">
+              ({{stockDetails.symbol}})
+            </span>
+          </span>
+          <span ng-show="stockDetails.Name == null">
+            {{stockDetails.symbol}}
+          </span>
+        </h1>
+        <div class="ui relaxed divided list">
+          <div class="item" ng-show="hasStock">
+            My Shares
+            <div class="right floated content">
+              {{stockPurchaseData.NumberOfStocks}}
             </div>
-        </div>
-        <div style="display:inline-block" class="column twelve wide">
-            <div class="ui segments segment">
-                <div class="ui segment items">
-                    <div class="item">
-                        <h1>History</h1>
-                    </div>
-                    <div class="item">
-                        <div class="ui three column middle aligned very relaxed stackable grid">
-                            <div class="row">
-                                <div class="column">
-                                    <div class="ui button" ng-click="setCalendarToYear()">
-                                        Past Year
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui button" ng-click="setCalendarToMonth()">
-                                        Past Month
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui button" ng-click="setCalendarToWeek()">
-                                        Past Week
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="column">
-                                    <div class="ui labeled input">
-                                        <div class="ui label">
-                                            Begin:
-                                        </div>
-                                        <input type="text" placeholder="(e.g. 2006-01-10)" ng-model="beginDate" ng-enter="reloadChart()">
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui labeled input">
-                                        <div class="ui label">
-                                            End:
-                                        </div>
-                                        <input type="text" placeholder="(e.g. 2006-01-10)" ng-model="endDate" ng-enter="reloadChart()">
-                                    </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui button" ng-click="reloadChart()">
-                                        Reload Calendar
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui segment">
-                    <!-- show if there's chart data and the error is null -->
-                    <div ng-show="anyChartData && chartError == null">
-                        <div class="ui dimmer" ng-class="{active: chartLoading}">
-                            <div class="ui loader"></div>
-                        </div>
-                        <canvas id="line" class="chart chart-line" chart-data="data"
-                                chart-labels="labels" chart-legend="true" chart-series="series"
-                                chart-options="chartOptions"
-                                chart-click="onClick"></canvas>
-                    </div>
-                    <!-- hide if there's chart data and the error is null -->
-                    <div ng-hide="anyChartData && chartError == null">
-                        <!-- If there's no chartError show this-->
-                        <div class="ui error message" ng-show="chartError == null">
-                            No data could be found. Please try selecting a different date range.
-                            <br />
-                            Note that we may not be able to load records for more than 2 years at a time.
-                        </div>
-                        <!-- If there is a chartError show it-->
-                        <div class="ui error message" ng-show="chartError != null">
-                            {{chartError}}
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="item" ng-show="hasStock">
+            Value
+            <div class="right floated content">
+              {{stockPurchaseData.NumberOfStocks * stockDetails.Bid}}
             </div>
+          </div>
+          <div class="item">
+            My Balance
+            <div class="right floated content" ng-show="balance != null">
+              {{balance.Amount}} {{balance.Currency}}
+            </div>
+          </div>
+          <div class="item">
+            Value/Share
+            <div class="right floated content">
+              {{stockDetails.Bid}}
+            </div>
+          </div>
         </div>
+        <div class="ui right labeled fluid input">
+          <input id="purchase_amount" type="number" ng-model="transactionData.shares" min=1 placeholder="Stocks" ng-enter="doTransaction()">
+          <div id="purchase_selector" class="ui dropdown label">
+            <div class="text">Buy</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Buy</div>
+              <div class="item">Sell</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui error message" ng-show="transactionData.error != null">
+          {{transactionData.error}}
+        </div>
+        <form class="ui form" ng-submit="saveNotes()" style="padding-top:1em;">
+          <div class="field">
+            <label>Notes</label>
+            <textarea rows="2" style="resize: vertical;" ng-model="transactionData.note"></textarea>
+          </div>
+          <button type="submit" class="ui right floated button">Save</button>
+        </form>
+      </div>
     </div>
+    <div class="column twelve wide">
+      <div class="ui one column grid">
+        <div class="column" style="overflow: scroll;">
+          <table class="ui unstackable celled padded table">
+            <thead>
+              <tr>
+                <th rowspan="2">Current Bid</th>
+                <th rowspan="2">Current Ask</th>
+                <th rowspan="2">Change</th>
+                <th rowspan="2">Volume</th>
+                <th colspan="2">Daily</th>
+                <th colspan="2">Yearly</th>
+              </tr>
+              <tr>
+                <th>High</th>
+                <th>Low</th>
+                <th>High</th>
+                <th>Low</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{stockDetails.Bid}}</td>
+                <td>{{stockDetails.Ask}}</td>
+                <td>{{stockDetails.Change}}</td>
+                <td>{{stockDetails.Volume}}</td>
+                <td>{{stockDetails.DaysHigh}}</td>
+                <td>{{stockDetails.DaysLow}}</td>
+                <td>{{stockDetails.YearHigh}}</td>
+                <td>{{stockDetails.YearLow}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="column">
+          <div class="ui padded segment">
+            <h1>History</h1>
+            <div class="ui three column middle aligned very relaxed stackable grid">
+              <div class="row">
+                <div class="column">
+                  <div class="ui button" ng-click="setCalendarToYear()">
+                    Past Year
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="ui button" ng-click="setCalendarToMonth()">
+                    Past Month
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="ui button" ng-click="setCalendarToWeek()">
+                    Past Week
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="column">
+                  <div class="ui labeled input">
+                    <div class="ui label">
+                      Begin:
+                    </div>
+                    <input type="text" placeholder="(e.g. 2006-01-10)" ng-model="beginDate" ng-enter="reloadChart()">
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="ui labeled input">
+                    <div class="ui label">
+                      End:
+                    </div>
+                    <input type="text" placeholder="(e.g. 2006-01-10)" ng-model="endDate" ng-enter="reloadChart()">
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="ui button" ng-click="reloadChart()">
+                    Reload Calendar
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- show if there's chart data and the error is null -->
+            <div ng-show="anyChartData && chartError == null">
+              <div class="ui dimmer" ng-class="{active: chartLoading}">
+                <div class="ui loader"></div>
+              </div>
+              <canvas id="line" class="chart chart-line" chart-data="data"
+              chart-labels="labels" chart-legend="true" chart-series="series"
+              chart-options="chartOptions"
+              chart-click="onClick"></canvas>
+            </div>
+            <!-- hide if there's chart data and the error is null -->
+            <div ng-hide="anyChartData && chartError == null">
+              <!-- If there's no chartError show this-->
+              <div class="ui error message" ng-show="chartError == null">
+                No data could be found. Please try selecting a different date range.
+                <br />
+                Note that we may not be able to load records for more than 2 years at a time.
+              </div>
+              <!-- If there is a chartError show it-->
+              <div class="ui error message" ng-show="chartError != null">
+                {{chartError}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('.dropdown').dropdown();
+    </script>
+  </div>
+  <div class="ui centered grid" ng-show="stockDetails == null">
+    <div class="twelve wide column">
+      <div class="ui error message">
+        No data for that ticker could be found. Please enter a vaild ticker.
+      </div>
+    </div>
+  </div>
 </div>

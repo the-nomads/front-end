@@ -57,7 +57,6 @@ HomeController.controller('HomeController',
                 $scope.wall = [];
             });
 
-            $scope.message = "";
             $scope.doPost = function () {
                 if ($scope.message != "") {
                     authService.postToWall(function (data) {
