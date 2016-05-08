@@ -48,7 +48,7 @@ TestController.controller('TestController',
                     $scope.$apply();
                 });
             }
-            $scope.DownloadJson = function (){
+            $scope.DownloadJson = function () {
                 var json = {"employees":[
                     {"firstName":"John", "lastName":"Doe"},
                     {"firstName":"Anna", "lastName":"Smith"},
@@ -62,8 +62,9 @@ TestController.controller('TestController',
                 var receivedJson = localStorage.getItem('testJson');
                 console.log(receivedJson);
                 var blob = new Blob([receivedJson],{type: "text/plain;charset=utf-8"})
-                saveAs(blob,'documentdownload.json');
+                saveAs(blob,'event.json');
             }
+
             $scope.LoadBalance = function () {
                 CaveWallAPIService.makeCall("GET", "users/balance", null, null,
                 function (data) {
