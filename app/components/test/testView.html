@@ -12,6 +12,9 @@
     <br />
     <button ng-click="DownloadJson()">Download Json File</button>
     <br />
+    <input id="json-file" type="file" />
+    <button ng-click="UploadFile()" id="fileSubmit" disabled>Submit File</button>
+    <br />
     <button ng-click="DoOtherThings()">Do other things</button>
     <div>
         <div ng-repeat="transaction in transactions">
@@ -24,4 +27,29 @@
             | on {{transaction.TransactionDate}}
         </div>
     </div>
+    <script>
+        $('#json-file').change(function(){
+            var file = this.files[0];
+            name = file.name;
+            size = file.size;
+            type = file.type;
+
+            if(file.name.length < 1) {
+                $('#fileSubmit').prop('disabled', true);
+            }
+            else if(file.size > 100000) {
+                alert("The file is too big");
+                $('#fileSubmit').prop('disabled', true);
+            }
+            else if(file.type != 'application/json' && file.type != "") {
+                alert("The file does not match png, jpg or gif");
+                $('#fileSubmit').prop('disabled', true);
+            }
+            else{
+                console.log("enabling button");
+                $('#fileSubmit').prop('disabled', false);
+
+            }
+        });
+    </script>
 </main>

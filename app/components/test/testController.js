@@ -79,6 +79,14 @@ TestController.controller('TestController',
                 });
             }
 
+            $scope.UploadFile = function () {
+                var element = document.getElementById('json-file');
+                var file = element.files[0];
+                //do stuff with the file.
+                $('#fileSubmit').prop('disabled', true);
+
+            }
+
             $scope.LoadTransactions = function () {
                 CaveWallAPIService.makeCall("GET", "users/financialtransactions", "all", null,
                 function (data) {
