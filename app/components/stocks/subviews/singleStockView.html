@@ -39,17 +39,20 @@
             </div>
           </div>
         </div>
-        <div class="ui right labeled fluid input">
-          <input id="purchase_amount" type="number" ng-model="transactionData.shares" min=1 placeholder="Stocks" ng-enter="doTransaction()">
-          <div id="purchase_selector" class="ui dropdown label">
-            <div class="text">Buy</div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <div class="item">Buy</div>
-              <div class="item">Sell</div>
+        <form class="ui form" ng-submit="doTransaction()">
+          <div class="ui right labeled fluid input field">
+            <input id="purchase_amount" type="number" ng-model="transactionData.shares" min=1 placeholder="Shares">
+            <div id="purchase_selector" class="ui dropdown label">
+              <div class="text">Buy</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item">Buy</div>
+                <div class="item">Sell</div>
+              </div>
             </div>
           </div>
-        </div>
+          <button type="submit" class="ui button">Confirm</button>
+        </form>
         <div class="ui error message" ng-show="transactionData.error != null">
           {{transactionData.error}}
         </div>
