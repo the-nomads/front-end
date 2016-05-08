@@ -148,3 +148,19 @@ i.icon.usfacebook:before {
 i.icon.usfacebook.official {
   content: "\f230";
 }
+
+.fc-event-container {
+    cursor: pointer;
+}
+
+.fc-event:hover {
+    background-color: #5aA7Cd;
+}
+
+.fc-day {
+    cursor: pointer;
+}
+
+.fc-day:hover {
+    background-color: #FCFCFC;
+}

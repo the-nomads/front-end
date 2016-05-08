@@ -49,12 +49,16 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
             }
         },
         function () {
+            if (onCompleteCallback) {
+                onCompleteCallback();
+            }
             // On error
         });
     }
 
     this.updateEvent = function (eventToPost, onCompleteCallback) {
-    // TODO: use correct call
+
+        
         CaveWallAPIService.makeCall("PUT", "users/events", eventToPost.EventID, eventToPost,
         function () {
             // On success
@@ -64,11 +68,14 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         },
         function () {
             // On error
+            if (onCompleteCallback) {
+                onCompleteCallback();
+            }
         });
     }
 
         this.deleteEvent = function (eventToPost, onCompleteCallback) {
-        CaveWallAPIService.makeCall("DELETE", "users/events", eventToPost.EventID, eventToPost,
+        CaveWallAPIService.makeCall("DELETE", "users/events", eventToPost.EventID, null,
         function () {
             // On success
             if (onCompleteCallback) {
@@ -77,6 +84,9 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
         },
         function () {
             // On error
+            if (onCompleteCallback) {
+                onCompleteCallback();
+            }
         });
     }
 

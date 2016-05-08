@@ -5,6 +5,21 @@ CalendarController.controller('CalendarController',
         function ($scope, $window, calendarService, authService, $location, CaveWallAPIService) {
             //'use strict';
 
+            function stripEvent(evt) {
+                var obj = 
+                {
+                    EventEndDate: evt.EventEndDate,
+                    EventID: evt.EventID,
+                    EventIsAllDay: evt.EventIsAllDay,
+                    EventName: evt.EventName,
+                    EventStartDate: evt.EventStartDate,
+                    IsDeleted: evt.IsDeleted,
+                    UserID: evt.UserID,
+                };
+
+                return obj;
+            }
+
             function setDateField(evt) {
                 if (evt.EventStartDate != null) {
                     evt.startHour = evt.EventStartDate.getHours() % 12;
@@ -88,11 +103,13 @@ CalendarController.controller('CalendarController',
 
                 if ($scope.eventError == null) {
 
+                    newEvent = stripEvent(newEvent);
+
                     if (newEvent.EventID != null) {
                         calendarService.updateEvent(newEvent, function () {
                             calendarService.getAllEvents(function (evts) {
                                 $("#calendar").fullCalendar('removeEvents');
-                                $("#calendar").fullCalendar('addEventSource', events);
+                                $("#calendar").fullCalendar('addEventSource', evts);
                                 $("#calendar").fullCalendar('rerenderEvents');
                             });
                         });
@@ -100,7 +117,7 @@ CalendarController.controller('CalendarController',
                         calendarService.postEvent(newEvent, function () {
                             calendarService.getAllEvents(function (evts) {
                                 $("#calendar").fullCalendar('removeEvents');
-                                $("#calendar").fullCalendar('addEventSource', events);
+                                $("#calendar").fullCalendar('addEventSource', evts);
                                 $("#calendar").fullCalendar('rerenderEvents');
                             });
                         });
@@ -111,10 +128,11 @@ CalendarController.controller('CalendarController',
             };
 
             $scope.deleteEvent = function (evt) {
+                evt = stripEvent(evt);
                 calendarService.deleteEvent(evt, function () {
                     calendarService.getAllEvents(function (evts) {
                         $("#calendar").fullCalendar('removeEvents');
-                        $("#calendar").fullCalendar('addEventSource', events);
+                        $("#calendar").fullCalendar('addEventSource', evts);
                         $("#calendar").fullCalendar('rerenderEvents');
                     });
                 });
@@ -133,50 +151,49 @@ CalendarController.controller('CalendarController',
             var me = this; // Use "me" so we don't lose a reference to "this"
 
             this.refreshCalendar = function () {
-                //calendarService.getAllEvents(function(evts) {
-                var evts = [];
+                calendarService.getAllEvents(function (evts) {
+
+                    // make events array
+
+                    $("#calendar").fullCalendar({
+                        header: {
+                            left: 'today prev,next',
+                            center: '',
+                            right: 'title'
+                        },
+
+                        selectable: true,
+
+                        // http://fullcalendar.io/
+                        events: evts,
+                        eventClick: function (evt) {
+                            console.log(evt);
+                            $scope.newEvent = evt;
+                            setDateField($scope.newEvent);
+                            $('.ui.modal').modal('show');
+                            $scope.$apply();
+                            return false;
+                        },
+                        dayClick: function (dateInfo) {
+                            $scope.newEvent = {
+                                EventStartDate: dateInfo._d,
+                                EventEndDate: dateInfo._d
+                            };
+
+                            $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));
+                            $scope.newEvent.EventEndDate = new Date($scope.newEvent.EventEndDate.setHours(13));
 
 
-                // make events array
+                            setDateField($scope.newEvent);
 
-                $("#calendar").fullCalendar({
-                    header: {
-                        left: 'today prev,next',
-                        center: '',
-                        right: 'title'
-                    },
-
-                    selectable: true,
-
-                    // http://fullcalendar.io/
-                    events: evts,
-                    eventClick: function (evt) {
-                        $scope.newEvent = evt;
-                        setDateField($scope.newEvent);
-                        $('.ui.modal').modal('show');
-                        $scope.$apply();
-                        return false;
-                    },
-                    dayClick: function (dateInfo) {
-                        $scope.newEvent = {
-                            EventStartDate: dateInfo._d,
-                            EventEndDate: dateInfo._d
-                        };
-
-                        $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));
-                        $scope.newEvent.EventEndDate = new Date($scope.newEvent.EventEndDate.setHours(13));
-
-
-                        setDateField($scope.newEvent);
-
-                        $scope.$apply();
-                        $('.ui.modal').modal('show');
-                    },
-                    loading: function (bool) {
-                        $('#loading').toggle(bool);
-                    }
+                            $scope.$apply();
+                            $('.ui.modal').modal('show');
+                        },
+                        loading: function (bool) {
+                            $('#loading').toggle(bool);
+                        }
+                    });
                 });
-                //});
             };
 
             this.refreshCalendar();

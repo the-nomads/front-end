@@ -5,7 +5,9 @@
     <div class="ui modal" id="event-modal">
         <i class="close icon"></i>
         <div class="header">
-            Add Event: {{newEvent.EventStartDate | date:"yyyy-MM-dd"}}
+            <span ng-show="newEvent.EventID != null">Edit Event:</span>
+            <span ng-show="newEvent.EventID == null">Add Event:</span>
+            {{newEvent.EventStartDate | date:"yyyy-MM-dd"}}
         </div>
         <div class="ui form">
             <div class="field dialog">
@@ -37,9 +39,12 @@
             <div ng-show="eventError != null" class="ui negative message">
                 {{eventError}}
             </div>
-            <button class="ui button calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
+            <button class="ui button negative calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
             <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
-            <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">Add Event</button>
+            <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">
+                <span ng-show="newEvent.EventID != null">Edit Event</span>
+                <span ng-show="newEvent.EventID == null">Add Event</span>
+            </button>
             <div>
             </div>
         </div>
