@@ -15,7 +15,7 @@
             {{trans.StockName}}
           </td>
           <td class="{{trans.FinancialTransactionDirection == 'IN' ? 'positive' : 'negative'}}">
-            {{trans.FinancialTransactionDirection == 'IN' ? '+' : '-'}}{{trans.Amount}} {{trans.Currency}}
+            {{trans.FinancialTransactionDirection == 'IN' ? 'SELL | +' : 'BUY | -'}}{{trans.Amount}} {{trans.Currency}}
           </td>
           <td>
             {{trans.TransactionDate | date : 'medium'}}
