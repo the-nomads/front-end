@@ -155,29 +155,31 @@ CalendarController.controller('CalendarController',
 
                 // make events array
 
-                $("#calendar").fullCalendar({
+                    $("#calendar").fullCalendar({
+                    timezone: 'local',
                     header: {
                         left: 'today prev,next',
                         center: '',
                         right: 'title'
                     },
-
+                    timezone: 'local',
                     selectable: true,
 
                     // http://fullcalendar.io/
                     events: evts,
                     eventClick: function (evt) {
-                            console.log(evt);
                         $scope.newEvent = evt;
                         setDateField($scope.newEvent);
                         $('#event-modal').modal('show');
                         $scope.$apply();
                         return false;
                     },
+                    
                     dayClick: function (dateInfo) {
                         $scope.newEvent = {
-                            EventStartDate: dateInfo._d,
-                            EventEndDate: dateInfo._d
+                            // Fix time zone issue - date is posted in UTC time, which in EST is the day before!
+                            EventStartDate: new Date(dateInfo._d.toUTCString().slice(0, -4)),
+                            EventEndDate: new Date(dateInfo._d.toUTCString().slice(0, -4)),
                         };
 
                         $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));

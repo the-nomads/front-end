@@ -1,6 +1,6 @@
 <main class="container container-body">
     <div id="calendar"></div>
-    <form class="ui modal" id="event-modal">
+    <div class="ui modal" id="event-modal">
         <i class="close icon"></i>
         <div class="header">
             <span ng-show="newEvent.EventID != null">Edit Event:</span>
@@ -38,14 +38,13 @@
                 {{eventError}}
             </div>
             <div class="actions">
-                <button class="ui button negative calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
-                <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
-                <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">
-                    <span ng-show="newEvent.EventID != null">Edit Event</span>
-                    <span ng-show="newEvent.EventID == null">Add Event</span>
-                </button>
+                <div class="ui button negative" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</div>
+                <div class="ui button" ng-click="eventDiscard()">Discard Event</div>
+                <div class="positive ui button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID != null">Edit Event</div>
+                <div class="positive ui button" ng-click="eventSubmit(newEvent)" ng-show="newEvent.EventID == null">Add Event</div>
             </div>
-    </form>
+        </div>
+    </div>
     <script>
         function disabletime() {
             $('#end').toggleClass("disabled");
