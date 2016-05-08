@@ -14,13 +14,13 @@
           </span>
         </h1>
         <div class="ui relaxed divided list">
-          <div class="item" ng-show="hasStock">
+          <div class="item">
             My Shares
             <div class="right floated content">
               {{stockPurchaseData.NumberOfStocks}}
             </div>
           </div>
-          <div class="item" ng-show="hasStock">
+          <div class="item">
             Value
             <div class="right floated content">
               {{(stockPurchaseData.NumberOfStocks * stockDetails.Bid).toFixed(2)}}
