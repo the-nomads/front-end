@@ -1,3 +1,66 @@
 ﻿<main class="container container-body">
     <div id="calendar"></div>
+
+
+    <div class="ui modal" id="event-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Add Event
+        </div>
+        <div class="ui form">
+            <div class="field dialog">
+                <label>Event Name  </label>
+                <input type="text" name="event-name" placeholder="Name" style="max-width: 40em">
+            </div>
+            <div class="field dialog">
+                <label>Event Runs All Day  </label>
+                <input type="checkbox" name="all-day" onchange="disabletime()">
+            </div>
+            <div class="field dialog" id="start">
+                <label>Event Start Time  </label>
+                <input type="number" id="event-start-hour" min="1" max="12" style="max-width: 5em"> :
+                <input type="number" id="event-start-second" min="0" max="60" style="max-width: 5em">
+                <select class="ui dropdown" id="event-start-ampm" style="max-width: 5em; display: inline">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+            <div class="field dialog" id="end">
+                <label>Event End Time  </label>
+                <input type="number" id="event-end-hour" min="1" max="12" style="max-width: 5em"> :
+                <input type="number" id="event-end-second" min="0" max="60" style="max-width: 5em">
+                <select class="ui dropdown" id="event-end-ampm" style="max-width: 5em; display: inline">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+            <button class="ui button calendar" type="submit" onclick="eventDiscard()">Discard Event</button>
+            <button class="positive ui button calendar" type="submit" onclick="eventSubmit()">Add Event</button>
+            <div>
+        </div>
+    </div>
+    <script>
+        function disabletime (){
+            $('#end').toggleClass("disabled");
+            $('#start').toggleClass("disabled");
+            $('#event-start-hour').val("12");
+            $('#event-start-second').val("00");
+            $('#event-start-ampm').val("AM");
+            $('#event-end-hour').val("11");
+            $('#event-end-second').val("59");
+            $('#event-end-ampm').val("PM");
+
+        }
+        function eventDiscard(){
+            $('#event-modal')
+                    .modal('hide')
+            ;
+
+        }
+        function eventSubmit(){
+            $('#event-modal')
+                    .modal('hide')
+            ;
+        }
+    </script>
 </main>
