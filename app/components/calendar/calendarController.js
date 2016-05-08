@@ -133,6 +133,7 @@ CalendarController.controller('CalendarController',
                         });
                     }
 
+                    $scope.newEvent = {};
                     $('#event-modal').modal('hide');
                 }
             };
@@ -190,6 +191,7 @@ CalendarController.controller('CalendarController',
                             // Fix time zone issue - date is posted in UTC time, which in EST is the day before!
                             EventStartDate: new Date(dateInfo._d.toUTCString().slice(0, -4)),
                             EventEndDate: new Date(dateInfo._d.toUTCString().slice(0, -4)),
+                            EventIsAllDay: false,
                         };
 
                         $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));

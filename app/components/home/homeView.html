@@ -109,7 +109,12 @@
                         <div ng-show="events.length > 0 && eventsLoaded">
                             <div ng-repeat="evt in events track by $index">
                                 <span ng-show="evt.isToday">
-                                    <strong>Today</strong>
+                                    <strong>
+                                        Today
+                                        <span ng-hide="evt.EventIsAllDay">
+                                            {{ evt.EventStartDate | date : 'h:mm a'}} - {{ evt.EventEndDate | date : 'h:mm a'}}
+                                        </span>
+                                    </strong>
                                 </span>
                                 <span ng-hide="evt.isToday">
                                     <span ng-show="evt.EventIsAllDay">
