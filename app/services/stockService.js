@@ -9,6 +9,60 @@ stockService.service('StockService', [function () {
     this.urlAppendDetail = "&format=json&env=http://datatables.org/alltables.env";
     this.urlAppendTimeline = "&format=json&env=store://datatables.org/alltableswithkeys&callback=";
 
+
+    function GetTransactions() {
+        var transactions = JSON.parse(localStorage.getItem("financialTransactions"));
+        if (transactions == null) {
+            transactions = [];
+            SaveTransactions(transactions);
+        }
+        return transactions;
+    }
+
+    function SaveTransactions(transactions) {
+        localStorage.setItem("financialTransactions", JSON.stringify(transactions));
+    }
+
+    function buyOrSellStock(direction, stockSymbol, numStocks, onSuccess, onError) {
+        CaveWallAPIService.makeCall("POST", "users/financialtransactions", null,
+            {
+                NumSharesBoughtOrSold: numStocks,
+                FinancialTransactionDirection: direction,
+                StockName: stockSymbol
+            },
+        function (financialTransaction) {
+            // On success
+
+            var transactions = GetTransactions();
+            transactions.push(financialTransaction);
+            SaveTransactions(transactions);
+
+            if (onSuccess) {
+                onSuccess(financialTransaction);
+            };
+        },
+        function (err) {
+            // On error
+            if (onError) {
+                onError(err[0].responseJSON);
+            }
+        });
+    }
+
+    this.DeleteTransactions = function() {
+        SaveTransactions([]);
+    }
+
+    this.buyStock = function (stockSymbol, numStocks, onSuccess, onError) {
+        // OUT because we're buying stocks, so money is going OUT of this user's account
+        buyOrSellStock("OUT", stockSymbol, numStocks, onSuccess, onError);
+    };
+
+    this.sellStock = function (stockSymbol, numStocks, onSuccess, onError) {
+        // IN because we're selling stocks, so money is going IN to this user's account
+        buyOrSellStock("IN", stockSymbol, numStocks, onSuccess, onError);
+    };
+
     this.getStockTicker = function (callback, onError) {
         this.getStockDetailsMany(this.defaultStocks, callback, onError)
     };
