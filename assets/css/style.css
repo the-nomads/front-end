@@ -149,6 +149,12 @@ i.icon.usfacebook.official {
   content: "\f230";
 }
 
+.ui.modal>.close {
+  right: calc(1.2857em / 2);
+  top: calc(1.2857em / 2);
+  color: rgba(0,0,0,.85);
+}
+
 .fc-event-container {
     cursor: pointer;
 }

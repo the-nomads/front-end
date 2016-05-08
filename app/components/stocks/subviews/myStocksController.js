@@ -13,6 +13,7 @@ MyStocksController.controller('MyStocksController',
               $scope.totalShares += item.NumberOfStocks;
               $scope.totalValue += (item.NumberOfStocks * item.Quote.Bid);
             });
+            console.log(stocks);
             $scope.$apply();
           }, function(data) {
             console.log('error getting stocks');

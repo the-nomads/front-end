@@ -123,7 +123,7 @@ CalendarController.controller('CalendarController',
                         });
                     }
 
-                    $('.ui.modal').modal('hide');
+                    $('#event-modal').modal('hide');
                 }
             };
 
@@ -136,12 +136,12 @@ CalendarController.controller('CalendarController',
                         $("#calendar").fullCalendar('rerenderEvents');
                     });
                 });
-                $('.ui.modal').modal('hide');
+                $('#event-modal').modal('hide');
             };
 
             $scope.eventDiscard = function () {
                 $scope.newEvent = {};
-                $('.ui.modal').modal('hide');
+                $('#event-modal').modal('hide');
             }
 
             if (authService.getUser() == null) {
@@ -153,46 +153,48 @@ CalendarController.controller('CalendarController',
             this.refreshCalendar = function () {
                 calendarService.getAllEvents(function (evts) {
 
-                    // make events array
+                // make events array
 
-                    $("#calendar").fullCalendar({
-                        header: {
-                            left: 'today prev,next',
-                            center: '',
-                            right: 'title'
-                        },
+                $("#calendar").fullCalendar({
+                    header: {
+                        left: 'today prev,next',
+                        center: '',
+                        right: 'title'
+                    },
 
-                        selectable: true,
+                    selectable: true,
 
-                        // http://fullcalendar.io/
-                        events: evts,
-                        eventClick: function (evt) {
+                    // http://fullcalendar.io/
+                    events: evts,
+                    eventClick: function (evt) {
                             console.log(evt);
-                            $scope.newEvent = evt;
-                            setDateField($scope.newEvent);
-                            $('.ui.modal').modal('show');
-                            $scope.$apply();
-                            return false;
-                        },
-                        dayClick: function (dateInfo) {
-                            $scope.newEvent = {
-                                EventStartDate: dateInfo._d,
-                                EventEndDate: dateInfo._d
-                            };
+                        $scope.newEvent = evt;
+                        setDateField($scope.newEvent);
+                        $('#event-modal').modal('show');
+                        $scope.$apply();
+                        return false;
+                    },
+                    dayClick: function (dateInfo) {
+                        $scope.newEvent = {
+                            EventStartDate: dateInfo._d,
+                            EventEndDate: dateInfo._d
+                        };
 
-                            $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));
-                            $scope.newEvent.EventEndDate = new Date($scope.newEvent.EventEndDate.setHours(13));
+                        $scope.newEvent.EventStartDate = new Date($scope.newEvent.EventStartDate.setHours(12));
+                        $scope.newEvent.EventEndDate = new Date($scope.newEvent.EventEndDate.setHours(13));
 
 
-                            setDateField($scope.newEvent);
+                        setDateField($scope.newEvent);
 
-                            $scope.$apply();
-                            $('.ui.modal').modal('show');
-                        },
-                        loading: function (bool) {
-                            $('#loading').toggle(bool);
-                        }
-                    });
+                        $scope.eventError = null;
+
+                        $scope.$apply();
+                        $('#event-modal').modal('show');
+                    },
+                    loading: function (bool) {
+                        $('#loading').toggle(bool);
+                    }
+                });
                 });
             };
 

@@ -24,7 +24,8 @@ var angApp = angular.module('angApp', [
     'StockSearchController',
     'MyStocksController',
     'TransactionHistoryController',
-
+    'SingleStockViewController',
+    
     'WeatherController',
     'LoginController',
 
