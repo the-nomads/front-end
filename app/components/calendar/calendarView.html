@@ -1,13 +1,13 @@
 <main class="container container-body">
     <div id="calendar"></div>
-  <form class="ui modal" id="event-modal" ng-submit="eventSubmit(newEvent)">
+    <form class="ui modal" id="event-modal">
         <i class="close icon"></i>
         <div class="header">
             <span ng-show="newEvent.EventID != null">Edit Event:</span>
             <span ng-show="newEvent.EventID == null">Add Event:</span>
             {{newEvent.EventStartDate | date:"yyyy-MM-dd"}}
         </div>
-    <div class="ui form content">
+        <div class="ui form content">
             <div class="field dialog">
                 <label>Event Name  </label>
                 <input type="text" name="event-name" placeholder="Name" style="max-width: 40em" ng-model="newEvent.EventName">
@@ -37,30 +37,25 @@
             <div ng-show="eventError != null" class="ui negative message">
                 {{eventError}}
             </div>
-            <button class="ui button negative calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
-            <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
-            <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">
-                <span ng-show="newEvent.EventID != null">Edit Event</span>
-                <span ng-show="newEvent.EventID == null">Add Event</span>
-            </button>
-            <div>
+            <div class="actions">
+                <button class="ui button negative calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
+                <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
+                <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">
+                    <span ng-show="newEvent.EventID != null">Edit Event</span>
+                    <span ng-show="newEvent.EventID == null">Add Event</span>
+                </button>
             </div>
-    <div class="actions">
-      <button class="ui button calendar" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
-      <button class="ui button calendar" ng-click="eventDiscard()">Discard Event</button>
-      <button class="ui green button calendar" type="submit">Add Event</button>
-        </div>
-  </form>
-        <script>
-            function disabletime() {
-                $('#end').toggleClass("disabled");
-                $('#start').toggleClass("disabled");
-                $('#event-start-hour').val("12");
-                $('#event-start-second').val("00");
-                $('#event-start-ampm').val("AM");
-                $('#event-end-hour').val("11");
-                $('#event-end-second').val("59");
-                $('#event-end-ampm').val("PM");
-            }
-        </script>
+    </form>
+    <script>
+        function disabletime() {
+            $('#end').toggleClass("disabled");
+            $('#start').toggleClass("disabled");
+            $('#event-start-hour').val("12");
+            $('#event-start-second').val("00");
+            $('#event-start-ampm').val("AM");
+            $('#event-end-hour').val("11");
+            $('#event-end-second').val("59");
+            $('#event-end-ampm').val("PM");
+        }
+    </script>
 </main>
