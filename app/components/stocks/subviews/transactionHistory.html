@@ -1,3 +1,14 @@
+<div class="segment">
+    <div class="ui button" ng-click="beginUpload()">Upload Transactions From File</div>
+    <div class="ui button" ng-click="beginDelete()" ng-hide="transactions.length == 0">Delete All Transactions</div>
+    <div ng-show="confirmDelete">
+        <div class="ui negative message">
+            This action will delete all of your records of your transactions. Are you sure you want to continue?
+        </div>
+        <div class="ui button" ng-click="cancelDelete()">Cancel</div>
+        <div class="negative ui button" ng-click="completeDeleteAction()">Delete All Transactions</div>
+    </div>
+</div>
 <div class="ui centered grid">
     <div class="ui fourteen wide column">
         <table class="ui celled padded table">
@@ -18,7 +29,7 @@
                         {{trans.NumSharesBoughtOrSold}}
                     </td>
                     <td class="{{trans.FinancialTransactionDirection == 'IN' ? 'positive' : 'negative'}}">
-                        {{trans.FinancialTransactionDirection == 'IN' ? 'SELL | +' : 'BUY | -'}}{{trans.Amount}} {{trans.Currency}}
+                        {{trans.FinancialTransactionDirection == 'IN' ? 'SELL | + ' : 'BUY | - '}}{{trans.Amount}} {{trans.Currency}}
                     </td>
                     <td>
                         {{trans.TransactionDate | date : 'medium'}}

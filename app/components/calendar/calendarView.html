@@ -5,16 +5,16 @@
     <div class="ui modal" id="event-modal">
         <i class="close icon"></i>
         <div class="header">
-            Add Event
+            Add Event: {{newEvent.EventStartDate | date:"yyyy-MM-dd"}}
         </div>
         <div class="ui form">
             <div class="field dialog">
                 <label>Event Name  </label>
-                <input type="text" name="event-name" placeholder="Name" style="max-width: 40em" ng-model="newEvent.eventName">
+                <input type="text" name="event-name" placeholder="Name" style="max-width: 40em" ng-model="newEvent.EventName">
             </div>
             <div class="field dialog">
-                <label>Event Runs All Day  </label>
-                <input type="checkbox" name="all-day" onchange="disabletime()" ng-model="newEvent.EventIsAllDay">
+                <input type="checkbox" id="EventRunsAllDay" onchange="disabletime()" ng-model="newEvent.EventIsAllDay">
+                <label for="EventRunsAllDay" style="display: inline-block;">Event Runs All Day</label>
             </div>
             <div class="field dialog" id="start" ng-hide="newEvent.EventIsAllDay">
                 <label>Event Start Time  </label>
@@ -34,33 +34,37 @@
                     <option value="PM">PM</option>
                 </select>
             </div>
+            <div ng-show="eventError != null" class="ui negative message">
+                {{eventError}}
+            </div>
+            <button class="ui button calendar" type="submit" ng-click="deleteEvent(newEvent)" ng-show="newEvent.EventID != null">Delete Event</button>
             <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
             <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">Add Event</button>
             <div>
+            </div>
         </div>
-    </div>
-    <script>
-        function disabletime (){
-            $('#end').toggleClass("disabled");
-            $('#start').toggleClass("disabled");
-            $('#event-start-hour').val("12");
-            $('#event-start-second').val("00");
-            $('#event-start-ampm').val("AM");
-            $('#event-end-hour').val("11");
-            $('#event-end-second').val("59");
-            $('#event-end-ampm').val("PM");
+        <script>
+            function disabletime() {
+                $('#end').toggleClass("disabled");
+                $('#start').toggleClass("disabled");
+                $('#event-start-hour').val("12");
+                $('#event-start-second').val("00");
+                $('#event-start-ampm').val("AM");
+                $('#event-end-hour').val("11");
+                $('#event-end-second').val("59");
+                $('#event-end-ampm').val("PM");
 
-        }
-        function eventDiscard(){
-            $('#event-modal')
-                    .modal('hide')
-            ;
+            }
+            function eventDiscard() {
+                $('#event-modal')
+                        .modal('hide')
+                ;
 
-        }
-        function eventSubmit(){
-            $('#event-modal')
-                    .modal('hide')
-            ;
-        }
-    </script>
+            }
+            function eventSubmit() {
+                $('#event-modal')
+                        .modal('hide')
+                ;
+            }
+        </script>
 </main>
