@@ -6,19 +6,19 @@
         <div class="item">
           Shares
           <div class="right floated content">
-            23
+            {{totalShares}}
           </div>
         </div>
         <div class="item">
           Companies
           <div class="right floated content">
-            23
+            {{totalCompanies}}
           </div>
         </div>
         <div class="item">
           Value
           <div class="right floated content">
-            23
+            {{totalValue}}
           </div>
         </div>
       </div>
@@ -36,13 +36,13 @@
       <tbody>
         <tr ng-repeat="stock in stocks track by $index">
           <td class="single line">
-            <!-- {{stock.Ticker}} -->
+            <a href="#stocks?stock={{stock.symbol}}" class="symbol">{{stock.StockName}}</a>
           </td>
           <td class="single line">
-            <!-- {{stock.Shares}} -->
+            {{stock.NumberOfStocks}}
           </td>
           <td class="single line">
-            <!-- {{stock.Value}} -->
+            {{stock.NumberOfStocks * stock.Quote.Bid}}
           </td>
         </tr>
       </tbody>

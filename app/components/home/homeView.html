@@ -1,22 +1,13 @@
 <main>
-  <script>
-    $('#marquee').marquee({
-        duration: 5000,
-        duplicated: true,
-        pauseOnHover: true
-    });
-  </script>
-  <div>
-    <div id="marquee" class="ticker">
-      <div ng-repeat="stock in stocks track by $index" class="stock">
-        <a href="#stockSearch?stock={{stock.symbol}}" class="symbol">{{stock.symbol}}</a>
-        {{stock.Ask}}
-        <span class="change">
-          ({{stock.Change}})
-        </span>
-      </div>
+  <marquee id="marquee" class="ticker" onmouseover="this.stop();" onmouseout="this.start();">
+    <div ng-repeat="stock in stocks track by $index" class="stock">
+      <a href="#stocks?stock={{stock.symbol}}" class="symbol">{{stock.StockName}}</a>
+      {{stock.Quote.Ask}}
+      <span class="change">
+        ({{stock.Quote.Change}})
+      </span>
     </div>
-  </div>
+  </marquee>
   <div class="ui vertically divided stackable grid">
     <div class="two column row">
       <div class="ten wide column">
