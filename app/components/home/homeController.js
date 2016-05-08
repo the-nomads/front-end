@@ -58,15 +58,16 @@ HomeController.controller('HomeController',
             });
 
             $scope.message = "";
-            $scope.doPost = function() {
-              console.log($scope.message);
-              if($scope.message != "") {
-                authService.postToWall(function(data){
-                  $scope.message = "";
-                  $scope.$apply();
-                  console.log(data);
-                }, $scope.message);
-              }
+            $scope.doPost = function () {
+                if ($scope.message != "") {
+                    authService.postToWall(function (data) {
+                        $scope.message = "";
+                        setTimeout(function () { $scope.$apply(); }, 1);
+                        authService.getUserFeed(function (userWall) {
+                            $scope.wall = userWall.data;
+                        });
+                    }, $scope.message);
+                }
             }
 
             $scope.zipError = false;
