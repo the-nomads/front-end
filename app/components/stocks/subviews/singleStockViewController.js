@@ -5,7 +5,7 @@ SingleStockViewController.controller('SingleStockViewController',
         function ($scope, $window, stockService, api) {
           $scope.chartLoading = false;
           $scope.transactionData = {};
-
+          $scope.chartData = {};
           $scope.chartOptions = {
               datasetFill: false,
               pointHitDetectionRadius: 7,
@@ -94,8 +94,8 @@ SingleStockViewController.controller('SingleStockViewController',
               var yearInPast = new Date();
               yearInPast.setTime(yearInPast.getTime() + (-366) * 86400000); // subtract 366 days (so we include 365 days)
 
-              $scope.beginDate = $.format.date(yearInPast, 'yyyy-MM-dd');
-              $scope.endDate = $.format.date(now, 'yyyy-MM-dd');
+              $scope.chartData.beginDate = $.format.date(yearInPast, 'yyyy-MM-dd');
+              $scope.chartData.endDate = $.format.date(now, 'yyyy-MM-dd');
               $scope.reloadChart();
           };
 
@@ -105,8 +105,8 @@ SingleStockViewController.controller('SingleStockViewController',
               var monthInPast = new Date();
               monthInPast.setTime(monthInPast.getTime() + (-32) * 86400000); // subtract 32 days (so we include 31 days)
 
-              $scope.beginDate = $.format.date(monthInPast, 'yyyy-MM-dd');
-              $scope.endDate = $.format.date(now, 'yyyy-MM-dd');
+              $scope.chartData.beginDate = $.format.date(monthInPast, 'yyyy-MM-dd');
+              $scope.chartData.endDate = $.format.date(now, 'yyyy-MM-dd');
               $scope.reloadChart();
           };
 
@@ -116,8 +116,8 @@ SingleStockViewController.controller('SingleStockViewController',
               var weekInPast = new Date();
               weekInPast.setTime(weekInPast.getTime() + (-7) * 86400000); // subtract 8 days (so we include 7 days)
 
-              $scope.beginDate = $.format.date(weekInPast, 'yyyy-MM-dd');
-              $scope.endDate = $.format.date(now, 'yyyy-MM-dd');
+              $scope.chartData.beginDate = $.format.date(weekInPast, 'yyyy-MM-dd');
+              $scope.chartData.endDate = $.format.date(now, 'yyyy-MM-dd');
               $scope.reloadChart();
           };
 
@@ -127,95 +127,107 @@ SingleStockViewController.controller('SingleStockViewController',
               $scope.chartError = null;
               $scope.chartLoading = true;
               $scope.anyChartData = true;
+              var beginDateParsed = new Date($scope.chartData.beginDate);
+              var endDateParsed = new Date($scope.chartData.endDate);
+              var now = new Date();
 
-              var beginDateParsed = new Date($scope.beginDate);
-              var endDateParsed = new Date($scope.endDate);
+              if(beginDateParsed > endDateParsed) {
+                console.log()
+                $scope.chartError = 'Please select an end date that is before the begin date';
+                $scope.chartLoading = false;
+                $scope.$apply();
+              } else if (beginDateParsed > now ||  endDateParsed > now){
+                $scope.chartError = 'Please select a start and end date that have already occurred';
+                $scope.chartLoading = false;
+                $scope.$apply();
+              } else {
 
-              stockService.getStockTimeline($scope.currentStockSymbol, beginDateParsed, endDateParsed, function (data) {
+                stockService.getStockTimeline($scope.currentStockSymbol, beginDateParsed, endDateParsed, function (data) {
 
-                  if (data == null) {
-                      $scope.anyChartData = false;
-                      $scope.chartLoading = false;
-                      $scope.$apply();
-                      return;
-                  }
+                    if (data == null) {
+                        $scope.anyChartData = false;
+                        $scope.chartLoading = false;
+                        $scope.$apply();
+                        return;
+                    }
 
-                  $scope.anyChartData = true;
+                    $scope.anyChartData = true;
 
-                  $scope.series = ['Open', 'Close', 'High', 'Low'];
-                  var labels = [];
-                  var dataLow = [];
-                  var dataHigh = [];
-                  var dataOpen = [];
-                  var dataClose = [];
+                    $scope.series = ['Open', 'Close', 'High', 'Low'];
+                    var labels = [];
+                    var dataLow = [];
+                    var dataHigh = [];
+                    var dataOpen = [];
+                    var dataClose = [];
 
-                  data.reverse();
+                    data.reverse();
 
-                  var frequency = 1; // Number of days we show
-                  // if we group up data sets by this number it should
-                  // limit us to 31 maximum points
-                  frequency = Math.ceil(data.length / 31);
+                    var frequency = 1; // Number of days we show
+                    // if we group up data sets by this number it should
+                    // limit us to 31 maximum points
+                    frequency = Math.ceil(data.length / 31);
 
-                  if (frequency == 1) {
-                      for (var i in data) {
-                          var timePt = data[i];
-                          dataLow.push(timePt.Low);
-                          dataHigh.push(timePt.High);
-                          dataOpen.push(timePt.Open);
-                          dataClose.push(timePt.Close);
-                          labels.push(timePt.Date);
-                      }
-                  } else {
-                      var lowSum = 0;
-                      var highSum = 0;
-                      var openSum = 0;
-                      var closeSum = 0;
-                      var count = 0;
-                      var start = "";
+                    if (frequency == 1) {
+                        for (var i in data) {
+                            var timePt = data[i];
+                            dataLow.push(timePt.Low);
+                            dataHigh.push(timePt.High);
+                            dataOpen.push(timePt.Open);
+                            dataClose.push(timePt.Close);
+                            labels.push(timePt.Date);
+                        }
+                    } else {
+                        var lowSum = 0;
+                        var highSum = 0;
+                        var openSum = 0;
+                        var closeSum = 0;
+                        var count = 0;
+                        var start = "";
 
-                      for (var i in data) {
-                          var timePt = data[i];
+                        for (var i in data) {
+                            var timePt = data[i];
 
-                          if (count == 0) {
-                              start = timePt.Date;
-                          }
-                          count++;
+                            if (count == 0) {
+                                start = timePt.Date;
+                            }
+                            count++;
 
-                          lowSum += parseFloat(timePt.Low);
-                          highSum += parseFloat(timePt.High);
-                          openSum += parseFloat(timePt.Open);
-                          closeSum += parseFloat(timePt.Close);
+                            lowSum += parseFloat(timePt.Low);
+                            highSum += parseFloat(timePt.High);
+                            openSum += parseFloat(timePt.Open);
+                            closeSum += parseFloat(timePt.Close);
 
-                          if (count == frequency) {
-                              dataLow.push(lowSum / count);
-                              dataHigh.push(highSum / count);
-                              dataOpen.push(openSum / count);
-                              dataClose.push(closeSum / count);
-                              labels.push(start + " - " + timePt.Date);
+                            if (count == frequency) {
+                                dataLow.push(lowSum / count);
+                                dataHigh.push(highSum / count);
+                                dataOpen.push(openSum / count);
+                                dataClose.push(closeSum / count);
+                                labels.push(start + " - " + timePt.Date);
 
-                              count = 0;
-                              lowSum = 0;
-                              highSum = 0;
-                              openSum = 0;
-                              closeSum = 0;
-                          }
-                      }
-                  }
+                                count = 0;
+                                lowSum = 0;
+                                highSum = 0;
+                                openSum = 0;
+                                closeSum = 0;
+                            }
+                        }
+                    }
 
-                  $scope.data = [
-                      dataOpen,
-                      dataClose,
-                      dataHigh,
-                      dataLow,
-                  ];
-                  $scope.labels = labels;
-                  $scope.chartLoading = false;
-                  $scope.$apply();
-              }, function () {
-                  $scope.chartError = "There was an error loading the stock data. Please try again later.";
-                  $scope.chartLoading = false;
-                  $scope.$apply();
-              });
+                    $scope.data = [
+                        dataOpen,
+                        dataClose,
+                        dataHigh,
+                        dataLow,
+                    ];
+                    $scope.labels = labels;
+                    $scope.chartLoading = false;
+                    $scope.$apply();
+                }, function () {
+                    $scope.chartError = "There was an error loading the stock data. Please try again later.";
+                    $scope.chartLoading = false;
+                    $scope.$apply();
+                });
+              }
           };
 
           $scope.chartError = null;
