@@ -4,7 +4,6 @@ CalendarController.controller('CalendarController',
     ['$scope', '$window', 'CalendarService', 'AuthService', '$location', 'CaveWallAPIService',
         function ($scope, $window, calendarService, authService, $location, CaveWallAPIService) {
             //'use strict';
-
             function setDateField(evt) {
                 if (evt.EventStartDate != null) {
                     evt.startHour = evt.EventStartDate.getHours() % 12;
@@ -106,7 +105,7 @@ CalendarController.controller('CalendarController',
                         });
                     }
 
-                    $('.ui.modal').modal('hide');
+                    $('#event-modal').modal('hide');
                 }
             };
 
@@ -118,12 +117,12 @@ CalendarController.controller('CalendarController',
                         $("#calendar").fullCalendar('rerenderEvents');
                     });
                 });
-                $('.ui.modal').modal('hide');
+                $('#event-modal').modal('hide');
             };
 
             $scope.eventDiscard = function () {
                 $scope.newEvent = {};
-                $('.ui.modal').modal('hide');
+                $('#event-modal').modal('hide');
             }
 
             if (authService.getUser() == null) {
@@ -153,7 +152,7 @@ CalendarController.controller('CalendarController',
                     eventClick: function (evt) {
                         $scope.newEvent = evt;
                         setDateField($scope.newEvent);
-                        $('.ui.modal').modal('show');
+                        $('#event-modal').modal('show');
                         $scope.$apply();
                         return false;
                     },
@@ -169,8 +168,10 @@ CalendarController.controller('CalendarController',
 
                         setDateField($scope.newEvent);
 
+                        $scope.eventError = null;
+
                         $scope.$apply();
-                        $('.ui.modal').modal('show');
+                        $('#event-modal').modal('show');
                     },
                     loading: function (bool) {
                         $('#loading').toggle(bool);
