@@ -10,32 +10,32 @@
         <div class="ui form">
             <div class="field dialog">
                 <label>Event Name  </label>
-                <input type="text" name="event-name" placeholder="Name" style="max-width: 40em">
+                <input type="text" name="event-name" placeholder="Name" style="max-width: 40em" ng-model="newEvent.eventName">
             </div>
             <div class="field dialog">
                 <label>Event Runs All Day  </label>
-                <input type="checkbox" name="all-day" onchange="disabletime()">
+                <input type="checkbox" name="all-day" onchange="disabletime()" ng-model="newEvent.EventIsAllDay">
             </div>
-            <div class="field dialog" id="start">
+            <div class="field dialog" id="start" ng-hide="newEvent.EventIsAllDay">
                 <label>Event Start Time  </label>
-                <input type="number" id="event-start-hour" min="1" max="12" style="max-width: 5em"> :
-                <input type="number" id="event-start-second" min="0" max="60" style="max-width: 5em">
-                <select class="ui dropdown" id="event-start-ampm" style="max-width: 5em; display: inline">
+                <input type="number" id="event-start-hour" min="1" max="12" style="max-width: 5em" ng-model="newEvent.startHour"> :
+                <input type="number" id="event-start-min" min="0" max="60" style="max-width: 5em" ng-model="newEvent.startMinute">
+                <select class="ui dropdown" id="event-start-ampm" style="max-width: 5em; display: inline" ng-model="newEvent.startAmpm">
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                 </select>
             </div>
-            <div class="field dialog" id="end">
+            <div class="field dialog" id="end" ng-hide="newEvent.EventIsAllDay">
                 <label>Event End Time  </label>
-                <input type="number" id="event-end-hour" min="1" max="12" style="max-width: 5em"> :
-                <input type="number" id="event-end-second" min="0" max="60" style="max-width: 5em">
-                <select class="ui dropdown" id="event-end-ampm" style="max-width: 5em; display: inline">
+                <input type="number" id="event-end-hour" min="1" max="12" style="max-width: 5em" ng-model="newEvent.endHour"> :
+                <input type="number" id="event-end-min" min="0" max="60" style="max-width: 5em" ng-model="newEvent.endMinute">
+                <select class="ui dropdown" id="event-end-ampm" style="max-width: 5em; display: inline" ng-model="newEvent.endAmpm">
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                 </select>
             </div>
-            <button class="ui button calendar" type="submit" onclick="eventDiscard()">Discard Event</button>
-            <button class="positive ui button calendar" type="submit" onclick="eventSubmit()">Add Event</button>
+            <button class="ui button calendar" type="submit" ng-click="eventDiscard()">Discard Event</button>
+            <button class="positive ui button calendar" type="submit" ng-click="eventSubmit(newEvent)">Add Event</button>
             <div>
         </div>
     </div>
