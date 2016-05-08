@@ -1,6 +1,6 @@
 ﻿<div class="ui grid">
   <div class="row">
-    <div class="ui four wide left floated column item" ng-show="stockDetails != null">
+    <div class="ui four wide left floated column item" ng-show="hasQuery">
       <button class="ui labeled icon button" ng-click="back()">
         <i class="left arrow icon"></i>
         Back
@@ -15,7 +15,7 @@
         </div>
     </div>
   </div>
-    <div ng-show="stockDetails == null" class="sixteen wide column">
+    <div ng-show="!hasQuery" class="sixteen wide column">
       <div id="tabs" class="ui pointing secondary menu">
         <a class="item active" data-tab="first">My Stocks</a>
         <a class="item" data-tab="second">Transactions</a>
@@ -27,7 +27,7 @@
         <div ng-include src="'app/components/stocks/subviews/transactionHistory.html'" ng-controller="TransactionHistoryController"></div>
       </div>
     </div>
-    <div ng-show="stockDetails != null" ng-include src="'app/components/stocks/subviews/singleStockView.html'"></div>
+    <div ng-show="hasQuery" ng-include src="'app/components/stocks/subviews/singleStockView.html'" ng-controller="SingleStockViewController"></div>
     <script>
       $('#tabs.menu .item').tab();
     </script>

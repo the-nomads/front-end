@@ -24,25 +24,53 @@
       </div>
     </div>
   </div>
-  <div class="ten wide column">
+  <div class="twelve wide column">
     <table class="ui celled padded table">
       <thead>
         <tr>
-          <th class="single line">Ticker</th>
-          <th>Shares</th>
-          <th>Current Value</th>
+          <th rowspan="2">Ticker</th>
+          <th rowspan="2">Shares</th>
+          <th rowspan="2">Current Value</th>
+          <th colspan="2">Bought</th>
+          <th colspan="2">Sold</th>
+          <th rowspan="2">Current Net</th>
+          <th rowspan="2">Net if Sold</th>
+        </tr>
+        <tr>
+          <th>Amount</th>
+          <th>Value</th>
+          <th>Amount</th>
+          <th>Value</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="stock in stocks track by $index">
-          <td class="single line">
+          <td>
             <a href="#stocks?stock={{stock.StockName}}" class="symbol">{{stock.StockName}}</a>
           </td>
-          <td class="single line">
+          <td>
             {{stock.NumberOfStocks}}
           </td>
-          <td class="single line">
+          <td>
             {{stock.NumberOfStocks * stock.Quote.Bid}}
+          </td>
+          <td>
+            {{stock.TotalNumberOfStocksBought}}
+          </td>
+          <td>
+            {{stock.TotalValueOfStocksBought}}
+          </td>
+          <td>
+            {{stock.TotalNumberOfStocksSold}}
+          </td>
+          <td>
+            {{stock.TotalValueOfStocksSold}}
+          </td>
+          <td class="{{stock.TotalValueOfStocksSold - stock.TotalValueOfStocksBought > 0 ? 'positive' : 'negative'}}">
+            {{stock.TotalValueOfStocksSold - stock.TotalValueOfStocksBought}}
+          </td>
+          <td class="{{stock.TotalValueOfStocksSold + stock.NumberOfStocks * stock.Quote.Bid - stock.TotalValueOfStocksBought > 0 ? 'positive' : 'negative'}}">
+            {{stock.TotalValueOfStocksSold + stock.NumberOfStocks * stock.Quote.Bid - stock.TotalValueOfStocksBought}}
           </td>
         </tr>
       </tbody>

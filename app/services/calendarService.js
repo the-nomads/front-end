@@ -44,8 +44,33 @@ calendarService.service('CalendarService', ['CaveWallAPIService', 'AuthService',
     this.postEvent = function (eventToPost, onCompleteCallback) {
         CaveWallAPIService.makeCall("POST", "users/events", null, eventToPost,
         function () {
+            if (onCompleteCallback) {
+                onCompleteCallback();
+            }
+        },
+        function () {
+            // On error
+        });
+    }
+
+    this.updateEvent = function (eventToPost, onCompleteCallback) {
+    // TODO: use correct call
+        CaveWallAPIService.makeCall("PUT", "users/events", eventToPost.EventID, eventToPost,
+        function () {
             // On success
-            console.log("Event Posted")
+            if (onCompleteCallback) {
+                onCompleteCallback();
+            }
+        },
+        function () {
+            // On error
+        });
+    }
+
+        this.deleteEvent = function (eventToPost, onCompleteCallback) {
+        CaveWallAPIService.makeCall("DELETE", "users/events", eventToPost.EventID, eventToPost,
+        function () {
+            // On success
             if (onCompleteCallback) {
                 onCompleteCallback();
             }
