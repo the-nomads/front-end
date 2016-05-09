@@ -28,16 +28,14 @@
         </div>
     </div>
     <script>
-        $('#json-file').change(function(){
+        $('#json-file').change(function() {
             var file = this.files[0];
             name = file.name;
             size = file.size;
             type = file.type;
 
-            if(file.name.length < 1) {
-                $('#fileSubmit').prop('disabled', true);
-            }
-            else if(file.size > 100000) {
+            if (file.name.length < 1) { $('#fileSubmit').prop('disabled', true); }
+            else if (file.size > 100000) {
                 alert("The file is too big");
                 $('#fileSubmit').prop('disabled', true);
             }

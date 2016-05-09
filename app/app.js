@@ -13,6 +13,7 @@ angular.module('OnEnterDirective', []).directive('ngEnter', function () {
     };
 });
 
+
 var angApp = angular.module('angApp', [
     'ngRoute',
     'ngFacebook',
@@ -118,3 +119,14 @@ angApp.run(['$rootScope', '$window', function ($rootScope, $window) {
       $rootScope.title = current.$$route.title;
     });
 }]);
+
+
+angApp.directive('customOnChange', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var onChangeHandler = scope.$eval(attrs.customOnChange);
+            element.bind('change', onChangeHandler);
+        }
+    };
+});

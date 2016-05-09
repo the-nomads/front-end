@@ -1,8 +1,14 @@
 <main class="container container-body">
     <div class="content">
-        Click on a date to add an event
         <div>
-
+            <div ng-show="fileErrors != null" class="ui negative message">{{fileErrors}}</div>
+            <div class="ui" style="margin: 1em;">
+                Upload an event from an event file: &nbsp;
+                <input id="calendar-json-file" type="file" custom-on-change="checkfile" />
+            </div>
+        </div>
+        <div>
+            Click on a date to add an event.
         </div>
     </div>
     <div id="calendar"></div>

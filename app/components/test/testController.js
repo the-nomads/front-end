@@ -82,9 +82,14 @@ TestController.controller('TestController',
             $scope.UploadFile = function () {
                 var element = document.getElementById('json-file');
                 var file = element.files[0];
-                //do stuff with the file.
-                $('#fileSubmit').prop('disabled', true);
+                var reader = new FileReader();
 
+                // Closure to capture the file information.
+                reader.onload = (function (theFile) {
+                    console.log("CONTENT")
+                    console.log(JSON.parse(theFile.target.result));
+                });
+                reader.readAsText(file);
             }
 
             $scope.LoadTransactions = function () {

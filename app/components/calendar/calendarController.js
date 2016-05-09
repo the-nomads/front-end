@@ -91,9 +91,78 @@ CalendarController.controller('CalendarController',
                 calendarService.downloadEvent(evt);
         };
 
-            $scope.uploadEvent = function () {
-
+        $scope.fileErrors = null;
+        $scope.uploadEvent = function () {
+            var element = document.getElementById('calendar-json-file');
+            var file = element.files[0];
         };
+
+        $scope.checkfile = function () {
+            var element = document.getElementById('calendar-json-file');
+            var file = element.files[0];
+
+            if (file != null) {
+                var name = file.name;
+                var size = file.size;
+                var type = file.type;
+
+                if (file.size > 100000) {
+                    $scope.fileErrors = "The provided file is too large";
+                    $scope.$apply();
+                }
+                else if (file.type != 'application/json' && file.type != "") {
+                    $scope.fileErrors = "The provided file is not a proper event file";
+                    $scope.$apply();
+                } else {
+                    var reader = new FileReader();
+
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        if (theFile == null || theFile.target == null || theFile.target.result == null) {
+                            $scope.fileErrors = "The provided file is not a proper event file";
+                            $scope.$apply();
+                        } else {
+                            try 
+                            {
+                                $scope.fileErrors = null;
+                                $scope.$apply();
+                                var content = JSON.parse(theFile.target.result)
+                                if (content == null) {
+                                    $scope.fileErrors = "The provided file is not a proper event file";
+                                    $scope.$apply();
+                                } else if (content.EventStartDate == null
+                                    || content.EventEndDate == null
+                                    || content.EventIsAllDay == null
+                                    || content.EventName == null) {
+                                    $scope.fileErrors = "The provided file is not a proper event file";
+                                    $scope.$apply();
+                                } else {
+                                    content.EventID = 0;
+                                    content.UserID = 0;
+                                    content.IsDeleted = false;
+                                    console.log(content);
+                                    calendarService.postEvent(content, function () {
+                                        calendarService.getAllEvents(function (evts) {
+                                            $("#calendar").fullCalendar('removeEvents');
+                                            $("#calendar").fullCalendar('addEventSource', evts);
+                                            $("#calendar").fullCalendar('rerenderEvents');
+                                        });
+                                    });
+                                }
+                            } catch (exc) {
+                                $scope.fileErrors = "The provided file is not a proper event file";
+                                $scope.$apply();
+                            }
+                        }
+                    });
+                    reader.readAsText(file);
+                }
+            } else {
+                $scope.fileErrors = null;
+                $scope.$apply();
+            }
+        };
+
             
             $scope.eventError = null;
             $scope.eventSubmit = function (newEvent) {
