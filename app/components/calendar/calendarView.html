@@ -1,16 +1,10 @@
 <main class="container container-body">
-    <div class="content">
-        <div>
-            <div ng-show="fileErrors != null" class="ui negative message">{{fileErrors}}</div>
-            <div class="ui" style="margin: 1em;">
-                Upload an event from an event file: &nbsp;
-                <input id="calendar-json-file" type="file" custom-on-change="checkfile" />
-            </div>
-        </div>
-        <div>
-            Click on a date to add an event.
-        </div>
-    </div>
+    <p>
+        <div ng-show="fileErrors != null" class="ui negative message">{{fileErrors}}</div>
+        Upload an event from an event file: 
+        <input id="calendar-json-file" type="file" custom-on-change="checkfile" />
+    </p>
+    <p>Click on a date to add an event.</p>
     <div id="calendar"></div>
     <form class="ui modal" id="event-modal" ng-submit="eventSubmit(newEvent)">
         <i class="close icon"></i>
