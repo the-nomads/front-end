@@ -29,6 +29,10 @@ stockService.service('StockService', ['CaveWallAPIService', function (CaveWallAP
         localStorage.setItem("financialTransactions", JSON.stringify(transactions));
     }
 
+    this.saveNewTransactions = function(transactions) {
+        SaveTransactions(transactions);
+    }
+
     var loadTransactions = this.getTransactions;
 
     function buyOrSellStock(direction, stockSymbol, numStocks, onSuccess, onError) {

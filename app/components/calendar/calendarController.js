@@ -92,11 +92,6 @@ CalendarController.controller('CalendarController',
         };
 
         $scope.fileErrors = null;
-        $scope.uploadEvent = function () {
-            var element = document.getElementById('calendar-json-file');
-            var file = element.files[0];
-        };
-
         $scope.checkfile = function () {
             var element = document.getElementById('calendar-json-file');
             var file = element.files[0];
@@ -140,7 +135,7 @@ CalendarController.controller('CalendarController',
                                     content.EventID = 0;
                                     content.UserID = 0;
                                     content.IsDeleted = false;
-                                    console.log(content);
+                                    document.getElementById('calendar-json-file').value = null;
                                     calendarService.postEvent(content, function () {
                                         calendarService.getAllEvents(function (evts) {
                                             $("#calendar").fullCalendar('removeEvents');
