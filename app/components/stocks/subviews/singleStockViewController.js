@@ -24,11 +24,12 @@ SingleStockViewController.controller('SingleStockViewController',
           var dateRangeSet = false;
 
           $scope.$on('showStocks', function(e) {
-            $scope.stocks.forEach(function(item, index){
-              if(item.StockName == $scope.currentStockSymbol) {
-                $scope.hasStock = true;
-                $scope.stockPurchaseData = item;
-                $scope.transactionData.note = item.UserNote;
+            $scope.stocks.forEach(function(stockItem, index){
+                if (stockItem.StockName == $scope.currentStockSymbol) {
+                  $scope.hasStock = true;
+                  console.log(stockItem);
+                  $scope.stockPurchaseData = stockItem;
+                  $scope.transactionData.note = stockItem.UserNote;
                 $scope.$apply();
                 return;
               }
@@ -37,11 +38,12 @@ SingleStockViewController.controller('SingleStockViewController',
 
           $scope.$on('init', function(e) {
             var found = false;
-            $scope.stocks.forEach(function(item, index){
-              if(item.StockName == $scope.currentStockSymbol) {
-                found = true;
-                $scope.stockPurchaseData = item;
-                $scope.transactionData.note = item.UserNote;
+            $scope.stocks.forEach(function (stockItem, index) {
+                if (stockItem.StockName == $scope.currentStockSymbol) {
+                  found = true;
+                  console.log(stockItem);
+                  $scope.stockPurchaseData = stockItem;
+                  $scope.transactionData.note = stockItem.UserNote;
                 return;
               }
             });

@@ -17,13 +17,13 @@
           <div class="item">
             My Shares
             <div class="right floated content">
-              {{stockPurchaseData.NumberOfStocks}}
+              {{stockPurchaseData.NumberOfStocks == null ? 0 : stockPurchaseData.NumberOfStocks}}
             </div>
           </div>
           <div class="item">
             Value
             <div class="right floated content">
-              {{(stockPurchaseData.NumberOfStocks * stockDetails.Bid).toFixed(2)}}
+              {{(stockPurchaseData.NumberOfStocks == null || stockDetails.Bid == null) ? "0.00" : (stockPurchaseData.NumberOfStocks * stockDetails.Bid).toFixed(2)}}
             </div>
           </div>
           <div class="item">
@@ -35,7 +35,7 @@
           <div class="item">
             Value/Share
             <div class="right floated content">
-              {{stockDetails.Bid.toFixed(2)}}
+              {{stockDetails.Bid == null ? "-" : stockDetails.Bid}}
             </div>
           </div>
         </div>
@@ -87,8 +87,8 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{stockDetails.Bid.toFixed(2)}}</td>
-                <td>{{stockDetails.Ask.toFixed(2)}}</td>
+                <td>{{stockDetails.Bid}}</td>
+                <td>{{stockDetails.Ask}}</td>
                 <td>{{stockDetails.Change}}</td>
                 <td>{{stockDetails.Volume}}</td>
                 <td>{{stockDetails.DaysHigh}}</td>
